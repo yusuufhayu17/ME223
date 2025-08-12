@@ -1,0 +1,1376 @@
+const questions = [
+  {
+    question: "On which of the following does convective heat transfer coefficient depend?",
+    options: [
+      "Time",
+      "Surface area",
+      "Space",
+      "Orientation of solid surface"
+    ],
+    answer: 3
+  },
+  {
+    question: "An aluminum plate has a circular hole. If the temperature of the plate increases, what happens to the size of the hole?",
+    options: [
+      "Decreases",
+      "Stays the same",
+      "Increases the top half of the hole",
+      "Increases"
+    ], 
+    answer: 3
+  },
+  {
+    question: "Choose the false statement regarding thermal conductivity:",
+    options: [
+      "For pure metal thermal conductivity is more",
+      "Thermal conductivity decreases with increase in the density of the substance",
+      "Thermal conductivity of dry material is lower than that of damp material",
+      "Heat treatment causes variation in thermal conductivity"
+    ],
+    answer: 1
+  },
+  {
+    question: "Mark the material with the least value of thermal conductivity:",
+    options: [
+      "Water",
+      "Ash",
+      "Window glass",
+      "Air"
+    ],
+    answer: 3
+  },
+  {
+    question: "Heat rate is given by (in kJ/kWh):",
+    options: [
+      "cycle efficiency",
+      "3600 / cycle efficiency",
+      "cycle efficiency / 3600",
+      "cycle efficiency * 3600"
+    ],
+    answer: 1
+  },
+  {
+    question: "The work ratio is defined as the ratio of:",
+    options: [
+      "positive network output to network output",
+      "network output to positive work output",
+      "heat input to work output",
+      "none of the mentioned"
+    ],
+    answer: 1
+  },
+  {
+    question: "For a vapour power cycle,",
+    options: [
+      "net heat input is converted into network output",
+      "Q1-Q2 = Wt-Wp",
+      "efficiency = 1 - (Q2/Q1)",
+      "all of the mentioned"
+    ],
+    answer: 3
+  },
+  {
+    question: "The path followed in a vapour power cycle is:",
+    options: [
+      "boiler-condenser-turbine-pump",
+      "boiler-turbine-condenser-pump",
+      "boiler-turbine-pump-condenser",
+      "boiler-pump-turbine-condenser"
+    ],
+    answer: 1
+  },
+  {
+    question: "For a Rankine cycle, which of the following is true?",
+    options: [
+      "a reversible constant pressure heating process happens in steam boiler",
+      "reversible adiabatic expansion of steam in turbine",
+      "reversible constant pressure heat rejection in condenser",
+      "all of the mentioned"
+    ],
+    answer: 3
+  },
+  {
+    question: "Which of the following statement is incorrect according to heat transfer?",
+    options: [
+      "Heat flow doesn't depend on temperature",
+      "A material medium is not necessary for heat transmission",
+      "The process of heat transfer is an irreversible process",
+      "For heat exchange, a temperature gradient must exist"
+    ],
+    answer: 3
+  },
+  {
+    question: "The liquid water handled by pump is:",
+    options: [
+      "incompressible",
+      "with increase in pressure, there is a little change in density or specific volume",
+      "both of the mentioned",
+      "none of the mentioned"
+    ],
+    answer: 2
+  },
+  {
+    question: "Work output of turbine is __ the work input to the pump.",
+    options: [
+      "much larger",
+      "much smaller",
+      "equal to",
+      "none of the mentioned"
+    ],
+    answer: 0
+  },
+  {
+    question: "Inflammable liquids in sealed containers are kept away from:",
+    options: [
+      "Air",
+      "Water",
+      "Cold",
+      "Dust"
+    ],
+    answer: 3
+  },
+  {
+    question: "Identify the very good insulator:",
+    options: [
+      "Saw dust",
+      "Cork",
+      "Asbestos sheet",
+      "Glass wool"
+    ],
+    answer: 3
+  },
+  {
+    question: "Thermal conductivity is defined as the heat flow per unit time:",
+    options: [
+      "When the temperature gradient is unity",
+      "Across unit area where the temperature gradient is unity",
+      "Through a unit thickness of the wall",
+      "Across unit area with no temperature"
+    ],
+    answer: 1
+  },
+  {
+    question: "Cork is a good insulator because:",
+    options: [
+      "It is flexible",
+      "It can be powdered",
+      "Low density",
+      "It is porous"
+    ],
+    answer: 3
+  },
+  {
+    question: "Which one of the following forms of water have the highest value of thermal conductivity?",
+    options: [
+      "Boiling water",
+      "Steam",
+      "Solid ice",
+      "Melting ice"
+    ],
+    answer: 2
+  },
+  {
+    question: "A bimetal plate consists of two materials of different coefficients of thermal expansion. The coefficient of thermal expansion of the top part of the plate is less than the bottom part. If the temperature of the entire plate increases, what happens to the plate?",
+    options: [
+      "Expands",
+      "Contracts",
+      "Stays the same",
+      "Bends up"
+    ],
+    answer: 3
+  },
+  {
+    question: "Which one of the following thermodynamic quantities is not a state function?",
+    options: [
+      "enthalpy",
+      "entropy",
+      "internal energy",
+      "work"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is heat transfer?",
+    options: [
+      "Flow of thermal energy from low-temperature reservoir to high-temperature reservoir",
+      "Flow of energy in the form of heat from high-temperature reservoir to low-temperature reservoir",
+      "Flow of thermal energy irrespective of reservoir temperature",
+      "None of the above"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is heat transfer rate?",
+    options: [
+      "Flow of thermal energy from low-temperature reservoir to high-temperature reservoir",
+      "Flow of energy in the form of heat from high-temperature reservoir to low-temperature reservoir",
+      "Flow of thermal energy irrespective of reservoir temperature",
+      "None of the above"
+    ],
+    answer: 1
+  },
+  {
+    question: "Heat transfer takes place according to which of the following law?",
+    options: [
+      "Newton's second law of motion",
+      "First law of thermodynamics",
+      "Newton's law of cooling",
+      "Second law of thermodynamics"
+    ],
+    answer: 3
+  },
+  {
+    question: "Which way is heat transfer believed to take place in a long, hollow cylinder that is kept at constant but varied temperatures on its inner and outer surfaces?",
+    options: [
+      "Unpredictable",
+      "Radial only",
+      "No heat transfer takes place",
+      "Axial only"
+    ],
+    answer: 1
+  },
+  {
+    question: "A person prefers to sit by a fire during the cold winter months. Which of the following heat transfer types gives him the most heat?",
+    options: [
+      "Convection and radiation together",
+      "Radiation will provide quick warmth",
+      "Conduction from the fire",
+      "Conduction and convection"
+    ],
+    answer: 1
+  },
+  {
+    question: "On which of the following does convective heat transfer coefficient doesn't depend?",
+    options: [
+      "Orientation of solid surface",
+      "Time",
+      "Surface area",
+      "Space"
+    ],
+    answer: 3
+  },
+  {
+    question: "In liquids and gases, heat transmission is primarily caused by:",
+    options: [
+      "Convection",
+      "Radiation",
+      "Conduction",
+      "Conduction as well as convection"
+    ],
+    answer: 3
+  },
+  {
+    question: "In which of the following cases provision of fins on a given heat transfer surface will be more effective?",
+    options: [
+      "Fewer but thin fins",
+      "Large number of thin fins",
+      "Large number of thick fins",
+      "Fewer but thick fins"
+    ],
+    answer: 1
+  },
+  {
+    question: "Rankine cycle operating on low pressure limit of p1 and high-pressure limit of p2:",
+    options: [
+      "has higher thermal efficiency than the Carnot cycle operating between same pressure limits",
+      "has lower thermal efficiency than Carnot cycle operating between same pressure limits",
+      "has same thermal efficiency as Carnot cycle operating between same pressure limits",
+      "may be more or less depending upon the magnitudes of p1 and p2"
+    ],
+    answer: 1
+  },
+  {
+    question: "Rankine efficiency of a steam power plant:",
+    options: [
+      "improves in Summer as compared to that in Winter",
+      "improves in Winter as compared to that in Summer",
+      "is unaffected by climatic conditions",
+      "none of the mentioned"
+    ],
+    answer: 1
+  },
+  {
+    question: "Rankine cycle comprises of:",
+    options: [
+      "two isentropic processes and two constant volume processes",
+      "two isentropic processes and two constant pressure processes",
+      "two isothermal processes and two constant pressure processes",
+      "none of the mentioned"
+    ],
+    answer: 1
+  },
+  {
+    question: "For a fluid undergoing cycle process,",
+    options: [
+      "there is no net change in its internal energy",
+      "energy transfer as heat is equal to the energy transfer as work",
+      "both of the mentioned",
+      "none of the mentioned"
+    ],
+    answer: 2
+  },
+  {
+    question: "For a Rankine cycle, which of the following is true?",
+    options: [
+      "reversible adiabatic expansion of steam in turbine",
+      "reversible constant pressure heating process happens in steam boiler",
+      "reversible constant pressure heat rejection in condenser",
+      "all of the mentioned"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is thermodynamic working fluid classified?",
+    options: [
+      "Single phase fluid",
+      "Two phase fluid",
+      "Ideal gas",
+      "Based on its state and phase changes during the cycle"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the function of latent heat of vaporization?",
+    options: [
+      "To increase the temperature of the liquid.",
+      "To change the phase from liquid to vapor at constant temperature.",
+      "To increase the kinetic energy of molecules.",
+      "To increase the pressure of the fluid."
+    ],
+    answer: 1
+  },
+  {
+    question: "How does an increase in pressure affect the boiling point of water?",
+    options: [
+      "Decreases it",
+      "Increases it",
+      "Has no effect",
+      "First increases then decreases"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the process of evaporation of water from a free surface called?",
+    options: [
+      "Evaporation",
+      "Boiling",
+      "Condensation",
+      "Sublimation"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the primary function of a condenser in a steam power plant?",
+    options: [
+      "To increase the pressure of steam",
+      "To condense exhaust steam from the turbine into liquid water",
+      "To provide heat to the boiler",
+      "To superheat the steam"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the purpose of reheating in a Rankine cycle?",
+    options: [
+      "To increase the pump work",
+      "To increase the turbine work output and reduce moisture content",
+      "To decrease the boiler pressure",
+      "To reduce the condenser heat rejection"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the undesirable effect of excessive moisture in steam for steam turbines?",
+    options: [
+      "It reduces the turbine power output.",
+      "It causes erosion of turbine blades.",
+      "It increases the specific steam consumption.",
+      "All of the above."
+    ],
+    answer: 3
+  },
+  {
+    question: "How is excessive moisture in steam overcome in modern power plants?",
+    options: [
+      "By using higher boiler pressure",
+      "By reheating the steam",
+      "By increasing condenser temperature",
+      "By using lower turbine inlet temperatures"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is specific steam consumption in a power plant?",
+    options: [
+      "Mass flow rate of steam per unit power output",
+      "Heat input per unit power output",
+      "Power output per unit mass flow rate of steam",
+      "Mass flow rate of fuel per unit power output"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the advantage of a gas turbine plant over a vapor power plant?",
+    options: [
+      "Higher thermal efficiency",
+      "Lower fuel consumption",
+      "Simpler plant and lower capital costs",
+      "Can use only gaseous fuels"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is Combined Heat and Power (CHP)?",
+    options: [
+      "A plant that generates only electricity",
+      "A plant that generates only heat",
+      "A plant that produces both electricity and useful heat simultaneously",
+      "A plant that uses only renewable energy sources"
+    ],
+    answer: 2
+  },
+  {
+    question: "What are the major components of a Rankine cycle power plant?",
+    options: [
+      "Compressor, combustion chamber, turbine, nozzle",
+      "Reactor, heat exchanger, pump, generator",
+      "Boiler, turbine, compressor, condenser",
+      "Boiler, turbine, condenser, pump"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the function of a re-heater in a steam power plant?",
+    options: [
+      "To increase the temperature of steam after partial expansion in the turbine",
+      "To preheat the feedwater before entering the boiler",
+      "To condense exhaust steam from the turbine",
+      "To remove impurities from steam"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is a Heat Recovery Steam Generator (HRSG)?",
+    options: [
+      "A device that condenses steam from the turbine exhaust",
+      "A heat exchanger that recovers heat from hot exhaust gases to generate steam",
+      "A component used to superheat steam to very high temperatures",
+      "A pump used to increase the pressure of feedwater"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the main reason for lagging pipes in a thermal system?",
+    options: [
+      "To reduce heat loss to the surroundings",
+      "To increase the temperature of the fluid",
+      "To prevent corrosion of the pipes",
+      "To reduce friction in the pipes"
+    ],
+    answer: 0
+  },
+  {
+    question: "Which factors affect water tanks, pipes, and radiators, typically influencing heat transfer?",
+    options: [
+      "Material of construction",
+      "Surface area exposed to surroundings",
+      "Temperature difference between fluid and surroundings",
+      "All of the above"
+    ],
+    answer: 3
+  },
+  {
+    question: "Distinction between forced and natural convection relates to:",
+    options: [
+      "The mechanism causing fluid motion",
+      "The type of fluid involved",
+      "The temperature difference",
+      "The surface area"
+    ],
+    answer: 0
+  },
+  {
+    question: "For a 10-cm diameter copper ball heated from 150°C to 250°C in one hour and 30 minutes, with density ρ = 8950 kg/m³ and specific heat Cp = 0.615 kJ/kg°C, what is the total amount of heat transfer to the copper ball?",
+    options: [
+      "288.35 kJ",
+      "144.17 kJ",
+      "576.7 kJ",
+      "72.09 kJ"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the average rate of heat transfer to the copper ball in the previous question?",
+    options: [
+      "0.032 kW",
+      "0.064 kW",
+      "0.128 kW",
+      "0.0534 kW"
+    ],
+    answer: 3
+  },
+  {
+    question: "What are the factors that determine the rate of conduction heat transfer?",
+    options: [
+      "Temperature difference, material density, specific heat",
+      "Area perpendicular to heat flow, temperature gradient, thermal conductivity, thickness of material",
+      "Convective heat transfer coefficient, fluid velocity",
+      "Surface roughness, emissivity"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the Stefan-Boltzmann law used for?",
+    options: [
+      "Conduction heat transfer",
+      "Convection heat transfer",
+      "Radiation heat transfer",
+      "Mass transfer"
+    ],
+    answer: 2
+  },
+  {
+    question: "What does a T-s diagram describe?",
+    options: [
+      "Pressure-volume changes in a cycle",
+      "Temperature-entropy changes during a thermodynamic process or cycle",
+      "Enthalpy-entropy changes during a process",
+      "Internal energy-volume changes"
+    ],
+    answer: 1
+  },
+  {
+    question: "What does wet steam mean in the context of power plants?",
+    options: [
+      "A mixture of saturated liquid and saturated vapor",
+      "Superheated steam",
+      "Saturated liquid only",
+      "Steam below its saturation temperature"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the process of boiling water at a constant pressure?",
+    options: [
+      "Isothermal process",
+      "Isobaric process",
+      "Both isothermal and isobaric",
+      "Isentropic process"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is the term for the process of converting vapor back to liquid?",
+    options: [
+      "Evaporation",
+      "Boiling",
+      "Condensation",
+      "Sublimation"
+    ],
+    answer: 2
+  },
+  {
+    question: "What are the advantages of the Rankine cycle?",
+    options: [
+      "Can utilize high-temperature heat sources",
+      "Efficient conversion of heat to work",
+      "Uses water as a working fluid, which is abundant and cheap",
+      "All of the above"
+    ],
+    answer: 3
+  },
+  {
+    question: "What are the limitations of the Carnot cycle?",
+    options: [
+      "It requires isothermal heat transfer, which is difficult to achieve in practice.",
+      "It requires reversible adiabatic processes, which are idealizations.",
+      "Its efficiency is very high and difficult to achieve in real engines.",
+      "All of the above."
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the purpose of specific steam consumption (SSC)?",
+    options: [
+      "To measure the boiler efficiency.",
+      "To calculate the heat input to the turbine.",
+      "To determine the amount of steam required per unit of power output.",
+      "To evaluate the pump work."
+    ],
+    answer: 2
+  },
+  {
+    question: "What is the significance of the heat rejection in a power cycle?",
+    options: [
+      "It provides useful work output.",
+      "It is used to generate more steam.",
+      "It is necessary to complete the thermodynamic cycle and maintain continuous operation.",
+      "It increases the overall plant efficiency."
+    ],
+    answer: 2
+  },
+  {
+    question: "What happens to the pressure of a fluid during an isobaric process?",
+    options: [
+      "It increases",
+      "It decreases",
+      "It remains constant",
+      "It fluctuates"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is subcooled liquid?",
+    options: [
+      "Liquid at a temperature below its saturation temperature for the given pressure.",
+      "Liquid at its saturation temperature but not yet boiling.",
+      "Liquid that contains some vapor bubbles.",
+      "Liquid at very high pressure."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is superheated vapor?",
+    options: [
+      "Vapor at a temperature higher than its saturation temperature for the given pressure.",
+      "Vapor containing liquid droplets.",
+      "Vapor at its saturation temperature.",
+      "Vapor that has condensed to liquid."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the role of a pump in a Rankine cycle?",
+    options: [
+      "To increase the pressure of the condensed liquid before it enters the boiler.",
+      "To convert steam into water.",
+      "To extract work from the fluid.",
+      "To add heat to the fluid."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the purpose of regenerative Rankine cycle?",
+    options: [
+      "To increase the average temperature of heat addition and improve efficiency.",
+      "To reduce the boiler pressure.",
+      "To increase the turbine work.",
+      "To simplify the plant design."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the difference between thermal conductivity of dry and damp material?",
+    options: [
+      "Damp material typically has higher thermal conductivity due to water.",
+      "Dry material typically has higher thermal conductivity.",
+      "There is no significant difference.",
+      "Damp material has lower thermal conductivity due to evaporation."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is a 'heat sink' in heat transfer?",
+    options: [
+      "A region or body to which heat is transferred from another body.",
+      "A device that generates heat.",
+      "A material that conducts heat very poorly.",
+      "A device that stores heat."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the formula for heat transfer by conduction through a plane wall?",
+    options: [
+      "Q = hAΔT",
+      "Q = εσA(T₁⁴ - T₂⁴)",
+      "Q = kAΔT/Δx",
+      "Q = mcΔT"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is the term for energy transfer due to temperature difference?",
+    options: [
+      "Work",
+      "Heat",
+      "Power",
+      "Force"
+    ],
+    answer: 1
+  },
+  {
+    question: "Which of the following is a unit of heat transfer rate?",
+    options: [
+      "Joule (J)",
+      "Calorie (cal)",
+      "Watt (W)",
+      "Kelvin (K)"
+    ],
+    answer: 2
+  },
+  {
+    question: "What causes heat transfer by radiation?",
+    options: [
+      "Electromagnetic waves",
+      "Molecular collisions",
+      "Fluid movement",
+      "Electron flow"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the primary advantage of increasing the superheat temperature in a Rankine cycle?",
+    options: [
+      "It reduces the boiler pressure.",
+      "It increases the turbine work output and reduces moisture content at the turbine exit.",
+      "It decreases the condenser temperature.",
+      "It simplifies the plant design."
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the general trend of thermal conductivity for pure metals as temperature increases?",
+    options: [
+      "Increases",
+      "Decreases",
+      "Remains constant",
+      "First increases then decreases"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the significance of the critical point on a P-T diagram?",
+    options: [
+      "The point at which the saturated liquid and saturated vapor lines meet, and distinct liquid and vapor phases cease to exist.",
+      "The triple point where solid, liquid, and gas phases coexist.",
+      "The point where boiling occurs.",
+      "The point of maximum pressure."
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the primary purpose of a deaerator in a steam power plant?",
+    options: [
+      "To heat feedwater.",
+      "To separate steam from water.",
+      "To remove non-condensable gases (like oxygen and carbon dioxide) from feedwater.",
+      "To condense steam."
+    ],
+    answer: 2
+  },
+  {
+    question: "What is the energy associated with the random motion of molecules called?",
+    options: [
+      "Internal energy",
+      "Kinetic energy",
+      "Potential energy",
+      "Flow energy"
+    ],
+    answer: 0
+  },
+  {
+    question: "In an ideal Rankine cycle, what type of process occurs in the pump?",
+    options: [
+      "Isothermal compression",
+      "Isentropic compression",
+      "Isobaric compression",
+      "Constant volume compression"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary purpose of a cooling tower in a steam power plant?",
+    options: [
+      "To reject waste heat to the atmosphere by cooling the condenser water",
+      "To cool the steam before it enters the turbine",
+      "To increase the pressure of the feedwater",
+      "To remove impurities from the steam"
+    ],
+    answer: 0
+  },
+  {
+    question: "Which of the following best describes the pinch point in a heat exchanger?",
+    options: [
+      "The point where heat transfer is maximum",
+      "The minimum temperature difference between hot and cold streams",
+      "The point where pressure drop is highest",
+      "The location where phase change begins"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary advantage of using supercritical boilers in power plants?",
+    options: [
+      "Lower capital costs",
+      "Reduced maintenance requirements",
+      "Higher thermal efficiency due to higher operating temperatures and pressures",
+      "Ability to use lower quality fuel"
+    ],
+    answer: 2
+  },
+  {
+    question: "What is the term for the ratio of actual work output to the maximum possible reversible work output for the same end states?",
+    options: [
+      "Thermal efficiency",
+      "Work ratio",
+      "Isentropic efficiency",
+      "Capacity factor"
+    ],
+    answer: 2
+  },
+  {
+    question: "In a Rankine cycle, what is the effect of lowering the condenser pressure (assuming turbine inlet conditions remain constant)?",
+    options: [
+      "Decreases thermal efficiency",
+      "Increases thermal efficiency",
+      "No effect on efficiency",
+      "Increases pump work requirement"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary purpose of an economizer in a boiler system?",
+    options: [
+      "To preheat the feedwater using waste heat from flue gases",
+      "To reduce the moisture content of steam",
+      "To increase the pressure of the feedwater",
+      "To superheat the steam"
+    ],
+    answer: 0
+  },
+  {
+    question: "Which of the following statements about the Carnot cycle is true?",
+    options: [
+      "It is the most practical cycle for steam power plants",
+      "It gives the maximum possible efficiency for given temperature limits",
+      "It can be easily implemented in real power plants",
+      "It doesn't involve any isothermal processes"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary reason for using feedwater heaters in a Rankine cycle?",
+    options: [
+      "To increase the average temperature of heat addition",
+      "To reduce the boiler pressure",
+      "To decrease the turbine work output",
+      "To reduce the condenser size"
+    ],
+    answer: 0
+  },
+  {
+    question: "What happens to the quality of steam as it expands through an ideal turbine?",
+    options: [
+      "It remains constant",
+      "It increases",
+      "It decreases",
+      "It first increases then decreases"
+    ],
+    answer: 2
+  },
+  {
+    question: "Which of the following is NOT a method of improving Rankine cycle efficiency?",
+    options: [
+      "Increasing boiler pressure",
+      "Superheating the steam",
+      "Reducing condenser pressure",
+      "Increasing the mass flow rate"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the primary purpose of a steam trap in a steam system?",
+    options: [
+      "To increase steam pressure",
+      "To remove condensate while preventing steam loss",
+      "To superheat the steam",
+      "To mix steam and water"
+    ],
+    answer: 1
+  },
+  {
+    question: "In a T-s diagram for water, what does the saturated liquid line represent?",
+    options: [
+      "The state of liquid at its boiling point for various pressures",
+      "The state of vapor at its condensation point",
+      "The state of superheated vapor",
+      "The state of subcooled liquid"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the primary advantage of a binary vapor cycle?",
+    options: [
+      "Lower capital costs",
+      "Better matching of working fluid properties to temperature ranges",
+      "Simpler plant design",
+      "Reduced maintenance requirements"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the term for the ratio of the actual heat absorbed by a fluid to the maximum possible heat absorption?",
+    options: [
+      "Thermal efficiency",
+      "Effectiveness",
+      "Work ratio",
+      "Capacity factor"
+    ],
+    answer: 1
+  },
+  {
+    question: "Which of the following is NOT a type of heat exchanger?",
+    options: [
+      "Shell and tube",
+      "Plate",
+      "Regenerative",
+      "Isentropic"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the primary reason for using mercury in binary vapor cycles?",
+    options: [
+      "Its high boiling point allows for high-temperature heat addition",
+      "It is inexpensive and readily available",
+      "It is non-toxic and environmentally friendly",
+      "It has very low thermal conductivity"
+    ],
+    answer: 0
+  },
+  {
+    question: "What is the term for the maximum moisture content allowed at the turbine exhaust?",
+    options: [
+      "Dryness fraction",
+      "Wetness limit",
+      "Quality factor",
+      "Saturation index"
+    ],
+    answer: 1
+  },
+  {
+    question: "In a regenerative Rankine cycle, where is the steam extracted for feedwater heating typically taken from?",
+    options: [
+      "Before the boiler",
+      "Between turbine stages",
+      "From the condenser",
+      "From the cooling tower"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary purpose of a superheater in a boiler?",
+    options: [
+      "To increase the pressure of the steam",
+      "To increase the temperature of the steam above its saturation temperature",
+      "To remove moisture from the steam",
+      "To preheat the feedwater"
+    ],
+    answer: 1
+  },
+  {
+    question: "Which of the following is NOT a component of a basic Rankine cycle?",
+    options: [
+      "Boiler",
+      "Turbine",
+      "Condenser",
+      "Compressor"
+    ],
+    answer: 3
+  },
+  {
+    question: "What is the term for the ratio of the change in temperature of a fluid to the maximum possible temperature change in a heat exchanger?",
+    options: [
+      "Efficiency",
+      "Effectiveness",
+      "Capacity ratio",
+      "Temperature gradient"
+    ],
+    answer: 1
+  },
+  {
+    question: "What is the primary reason for using multiple pressure boilers in modern power plants?",
+    options: [
+      "To reduce the size of the turbine",
+      "To better match the temperature profiles of the flue gas and working fluid",
+      "To simplify the plant design",
+      "To reduce the need for feedwater heaters"
+    ],
+    answer: 1
+  }
+];
+// Your full JS code with fixes:
+const questionNavMobile = document.getElementById('question-nav-mobile');
+
+const startScreen = document.getElementById('start-screen');
+const startQuizBtn = document.getElementById('start-quiz-btn');
+const quizContainer = document.getElementById('quiz-container');
+const resultContainer = document.getElementById('result-container');
+const app = document.getElementById('app');
+
+startQuizBtn.addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  app.style.display = 'flex';  // or 'block' depending on your CSS
+
+  initQuiz(); // call your quiz initializer here
+});
+
+const timerEl = document.getElementById('timer');
+const questionNumberEl = document.getElementById('question-number');
+const questionTextEl = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+
+const scoreEl = document.getElementById('score');
+const resultsList = document.getElementById('results-list');
+const retryBtn = document.getElementById('retry-btn');
+
+const questionNav = document.getElementById('question-nav');
+
+const customConfirm = document.getElementById('customConfirm');
+const confirmYes = document.getElementById('confirmYes');
+const confirmNo = document.getElementById('confirmNo');
+
+const TOTAL_QUESTIONS = 50;
+const TIME_LIMIT = 45 * 60; // in seconds
+
+let selectedQuestions = [];
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let timer;
+let timeRemaining = TIME_LIMIT;
+// Run once on load
+handleSidebarPosition();
+
+// Run on resize
+window.addEventListener('resize', handleSidebarPosition);
+
+function initQuiz() {
+  // Shuffle and pick questions
+  const shuffled = shuffleArray([...questions]);
+  selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
+
+  currentQuestionIndex = 0;
+  userAnswers = new Array(selectedQuestions.length).fill(null);
+
+  timeRemaining = TIME_LIMIT;
+  updateTimerDisplay();
+
+  showQuestion();
+
+  prevBtn.disabled = true;
+  nextBtn.disabled = false;
+  submitBtn.style.display = 'none';
+  submitBtn.disabled = true;
+
+  quizContainer.style.display = 'flex';
+  resultContainer.style.display = 'none';
+
+  startTimer();
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    timeRemaining--;
+    updateTimerDisplay();
+    if (timeRemaining <= 0) {
+      clearInterval(timer);
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  let min = Math.floor(timeRemaining / 60);
+  let sec = timeRemaining % 60;
+  timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+}
+function renderQuestionNav() {
+  [questionNav, questionNavMobile].forEach(nav => {
+    nav.innerHTML = '';
+    selectedQuestions.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = i + 1;
+      if (userAnswers[i] !== null) btn.classList.add('answered');
+      if (i === currentQuestionIndex) btn.classList.add('current');
+      btn.addEventListener('click', () => {
+        currentQuestionIndex = i;
+        showQuestion();
+        renderQuestionNav();
+      });
+      nav.appendChild(btn);
+    });
+    nav.scrollLeft = 0; // Reset scroll left for mobile nav
+  });
+}
+
+
+function showQuestion() {
+  const q = selectedQuestions[currentQuestionIndex];
+  questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
+  questionTextEl.textContent = q.question;
+
+  optionsContainer.innerHTML = '';
+
+  q.options.forEach((optionText, i) => {
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'option';
+    optionDiv.tabIndex = 0;
+    optionDiv.setAttribute('role', 'radio');
+    optionDiv.setAttribute('aria-checked', 'false');
+    optionDiv.setAttribute('data-index', i);
+    optionDiv.textContent = optionText;
+
+    if(userAnswers[currentQuestionIndex] === i) {
+      optionDiv.classList.add('selected');
+      optionDiv.setAttribute('aria-checked', 'true');
+    }
+
+    optionDiv.addEventListener('click', () => {
+      selectOption(i);
+    });
+
+    optionDiv.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectOption(i);
+      }
+    });
+
+    optionsContainer.appendChild(optionDiv);
+  });
+
+  prevBtn.disabled = currentQuestionIndex === 0;
+
+  // Allow next always except on last question
+  nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
+
+  // Submit button enable/disable based on answer
+  submitBtn.style.display = 'inline-block';
+  submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
+
+  renderQuestionNav();
+}
+
+function selectOption(optionIndex) {
+  userAnswers[currentQuestionIndex] = optionIndex;
+
+  Array.from(optionsContainer.children).forEach(optEl => {
+    optEl.classList.toggle('selected', Number(optEl.getAttribute('data-index')) === optionIndex);
+    optEl.setAttribute('aria-checked', Number(optEl.getAttribute('data-index')) === optionIndex ? 'true' : 'false');
+  });
+
+  submitBtn.disabled = false;
+
+  renderQuestionNav();
+}
+
+prevBtn.addEventListener('click', () => {
+  if(currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    showQuestion();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  if(currentQuestionIndex < selectedQuestions.length - 1) {
+    currentQuestionIndex++;
+    showQuestion();
+  }
+});
+
+// Submit button shows custom confirmation dialog
+submitBtn.addEventListener('click', () => {
+  customConfirm.style.display = 'flex';
+});
+
+// Confirm dialog buttons
+confirmYes.addEventListener('click', () => {
+  customConfirm.style.display = 'none';
+  finishQuiz();
+});
+
+confirmNo.addEventListener('click', () => {
+  customConfirm.style.display = 'none';
+});
+
+function finishQuiz() {
+  clearInterval(timer);
+
+  quizContainer.style.display = 'none';
+  resultContainer.style.display = 'flex';
+
+  let correctCount = 0;
+  resultsList.innerHTML = '';
+
+  selectedQuestions.forEach((q, idx) => {
+    const userAnsIndex = userAnswers[idx];
+    const isCorrect = userAnsIndex === q.answer;
+    if (isCorrect) correctCount++;
+
+    const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
+    const correctAnswerText = q.options[q.answer];
+
+    const div = document.createElement('div');
+    div.className = 'result-question';
+
+    div.innerHTML = `
+      <div><strong>Q${idx + 1}:</strong> ${q.question}</div>
+      <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAnswerText}</span></div>
+      ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${correctAnswerText}</span></div>`}
+    `;
+
+    resultsList.appendChild(div);
+  });
+
+  scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
+}
+
+retryBtn.addEventListener('click', () => {
+  initQuiz();
+});
+
+// Disable right-click, text selection, and copy shortcuts (optional)
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && ['c', 'u', 's', 'a'].includes(e.key.toLowerCase())) {
+    e.preventDefault();
+  }
+});
+
+// Blur warning overlay
+(function() {
+  const overlay = document.createElement('div');
+  overlay.id = 'blur-warning';
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    color: 'white',
+    fontSize: '2rem',
+    display: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: '9999',
+    textAlign: 'center',
+    padding: '20px',
+    flexDirection: 'column',
+    display: 'flex'
+  });
+  overlay.innerHTML = `
+    ⚠ You are not allowed to leave the test page! <br><br>
+    <button id="resumeQuiz" style="padding: 10px 20px; font-size: 1.2rem; cursor: pointer;">
+        Resume Quiz
+    </button>
+  `;
+  document.body.appendChild(overlay);
+
+  window.addEventListener('blur', () => {
+    overlay.style.display = 'flex';
+  });
+
+  document.getElementById('resumeQuiz').addEventListener('click', () => {
+    overlay.style.display = 'none';
+  });
+})();
+
+// Responsive sidebar reposition for mobile
+function handleSidebarPosition() {
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('main-content');
+  const app = document.getElementById('app');
+
+  if(window.innerWidth <= 768) {
+    // On small screens, move sidebar ABOVE main quiz content vertically
+    if (app.firstChild !== sidebar) {
+      app.insertBefore(sidebar, mainContent);
+      sidebar.style.width = '100%';
+      sidebar.style.marginBottom = '1rem';
+      // Optionally add mobile styles here:
+      sidebar.style.order = '0';
+    }
+  } else {
+    // On larger screens, sidebar on the left horizontally
+    if (app.firstChild !== sidebar) {
+      app.insertBefore(sidebar, mainContent);
+      sidebar.style.width = '200px';  // Adjust width for desktop
+      sidebar.style.marginBottom = '0';
+      sidebar.style.order = '';
+    }
+  }
+}
+
+// Run on load and resize
+window.addEventListener('load', handleSidebarPosition);
+window.addEventListener('resize', handleSidebarPosition);
+
+// Initialize everything hidden, wait for user to start quiz
+quizContainer.style.display = 'none';
+resultContainer.style.display = 'none';
+submitBtn.style.display = 'none';
+
+
+// === ADD KEYBOARD NAVIGATION ===
+
+document.addEventListener('keydown', function(event) {
+  // Ignore key presses if user is typing in input/textarea/button
+  const activeTag = document.activeElement.tagName.toLowerCase();
+  if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'button') {
+    return;
+  }
+
+  const key = event.key.toLowerCase();
+
+  switch(key) {
+    case 'arrowright':
+    case 'n':
+      // Next question
+      if(currentQuestionIndex < selectedQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      }
+      break;
+
+    case 'arrowleft':
+    case 'p':
+      // Previous question
+      if(currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion();
+      }
+      break;
+
+    case 'a':
+      selectOption(0);
+      break;
+    case 'b':
+      selectOption(1);
+      break;
+    case 'c':
+      selectOption(2);
+      break;
+    case 'd':
+      selectOption(3);
+      break;
+    case 'e':
+      selectOption(4);
+      break;
+  }
+});
