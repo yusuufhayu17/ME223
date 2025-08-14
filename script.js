@@ -1001,268 +1001,261 @@ const questions = [
   }
 ];
 // Your full JS code with fixes:
+// UI Elements
+const questionNav = document.getElementById('question-nav');
+const startScreen = document.getElementById('start-screen');
+const startQuizBtn = document.getElementById('start-quiz-btn');
+const quizContainer = document.getElementById('quiz-container');
+const resultContainer = document.getElementById('result-container');
+const app = document.getElementById('app');
+const timerEl = document.getElementById('timer');
+const questionNumberEl = document.getElementById('question-number');
+const questionTextEl = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+const scoreEl = document.getElementById('score');
+const resultsList = document.getElementById('results-list');
+const retryBtn = document.getElementById('retry-btn');
+const customConfirm = document.getElementById('customConfirm');
+const confirmYes = document.getElementById('confirmYes');
+const confirmNo = document.getElementById('confirmNo');
+const darkModeToggle = document.getElementById('dark-mode-toggle');
 
+// Quiz variables
+const TOTAL_QUESTIONS = 45;
+const TIME_LIMIT = 45 * 60; // in seconds
+let selectedQuestions = [];
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let timer;
+let timeRemaining = TIME_LIMIT;
 
-    // UI Elements
-    const questionNav = document.getElementById('question-nav');
-    const startScreen = document.getElementById('start-screen');
-    const startQuizBtn = document.getElementById('start-quiz-btn');
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const app = document.getElementById('app');
-    const timerEl = document.getElementById('timer');
-    const questionNumberEl = document.getElementById('question-number');
-    const questionTextEl = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const submitBtn = document.getElementById('submit-btn');
-    const scoreEl = document.getElementById('score');
-    const resultsList = document.getElementById('results-list');
-    const retryBtn = document.getElementById('retry-btn');
-    const customConfirm = document.getElementById('customConfirm');
-    const confirmYes = document.getElementById('confirmYes');
-    const confirmNo = document.getElementById('confirmNo');
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
+// Initialize quiz
+startQuizBtn.addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  app.style.display = 'flex';
+  initQuiz();
+});
 
-    // Quiz variables
-    const TOTAL_QUESTIONS = 45;
-    const TIME_LIMIT = 45 * 60; // in seconds
-    let selectedQuestions = [];
-    let currentQuestionIndex = 0;
-    let userAnswers = [];
-    let timer;
-    let timeRemaining = TIME_LIMIT;
+function initQuiz() {
+  // Shuffle and pick questions
+  const shuffled = shuffleArray([...questions]);
+  selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
 
-    // Initialize quiz
-    startQuizBtn.addEventListener('click', () => {
-      startScreen.style.display = 'none';
-      app.style.display = 'flex';
-      initQuiz();
-    });
+  currentQuestionIndex = 0;
+  userAnswers = new Array(selectedQuestions.length).fill(null);
 
-    function initQuiz() {
-      // Shuffle and pick questions
-      const shuffled = shuffleArray([...questions]);
-      selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
+  timeRemaining = TIME_LIMIT;
+  updateTimerDisplay();
 
-      currentQuestionIndex = 0;
-      userAnswers = new Array(selectedQuestions.length).fill(null);
+  showQuestion();
 
-      timeRemaining = TIME_LIMIT;
-      updateTimerDisplay();
+  prevBtn.disabled = true;
+  nextBtn.disabled = false;
+  submitBtn.disabled = true;
 
-      showQuestion();
+  quizContainer.style.display = 'flex';
+  resultContainer.style.display = 'none';
 
-      prevBtn.disabled = true;
-      nextBtn.disabled = false;
-      submitBtn.disabled = true;
+  startTimer();
+}
 
-      quizContainer.style.display = 'flex';
-      resultContainer.style.display = 'none';
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
-      startTimer();
-    }
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    function startTimer() {
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    timeRemaining--;
+    updateTimerDisplay();
+    if (timeRemaining <= 0) {
       clearInterval(timer);
-      timer = setInterval(() => {
-        timeRemaining--;
-        updateTimerDisplay();
-        if (timeRemaining <= 0) {
-          clearInterval(timer);
-          finishQuiz();
-        }
-      }, 1000);
-    }
-
-    function updateTimerDisplay() {
-      let min = Math.floor(timeRemaining / 60);
-      let sec = timeRemaining % 60;
-      timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
-    }
-
-    function renderQuestionNav() {
-      questionNav.innerHTML = '';
-      selectedQuestions.forEach((_, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = i + 1;
-        if (userAnswers[i] !== null) btn.classList.add('answered');
-        if (i === currentQuestionIndex) btn.classList.add('current');
-        btn.addEventListener('click', () => {
-          currentQuestionIndex = i;
-          showQuestion();
-          renderQuestionNav();
-        });
-        questionNav.appendChild(btn);
-      });
-    }
-
-    function showQuestion() {
-      const q = selectedQuestions[currentQuestionIndex];
-      questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
-      questionTextEl.textContent = q.question;
-
-      optionsContainer.innerHTML = '';
-
-      q.options.forEach((optionText, i) => {
-        const optionDiv = document.createElement('div');
-        optionDiv.className = 'option';
-        optionDiv.textContent = String.fromCharCode(65 + i) + ". " + optionText;
-        
-        // Add keyboard shortcut badge
-        const keyBadge = document.createElement('div');
-        keyBadge.className = 'key-badge';
-        keyBadge.textContent = String.fromCharCode(65 + i);
-        optionDiv.appendChild(keyBadge);
-
-        if(userAnswers[currentQuestionIndex] === i) {
-          optionDiv.classList.add('selected');
-        }
-
-        optionDiv.addEventListener('click', () => {
-          selectOption(i);
-        });
-
-        optionsContainer.appendChild(optionDiv);
-      });
-
-      prevBtn.disabled = currentQuestionIndex === 0;
-      nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
-      submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
-
-      renderQuestionNav();
-    }
-
-    function selectOption(optionIndex) {
-      userAnswers[currentQuestionIndex] = optionIndex;
-      
-      Array.from(optionsContainer.children).forEach((optEl, idx) => {
-        optEl.classList.toggle('selected', idx === optionIndex);
-      });
-
-      submitBtn.disabled = false;
-      renderQuestionNav();
-    }
-
-    // Navigation buttons
-    prevBtn.addEventListener('click', () => {
-      if(currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion();
-      }
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if(currentQuestionIndex < selectedQuestions.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-      }
-    });
-
-    // Submit button shows custom confirmation dialog
-    submitBtn.addEventListener('click', () => {
-      customConfirm.style.display = 'flex';
-    });
-
-    // Confirm dialog buttons
-    confirmYes.addEventListener('click', () => {
-      customConfirm.style.display = 'none';
       finishQuiz();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  let min = Math.floor(timeRemaining / 60);
+  let sec = timeRemaining % 60;
+  timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+}
+
+function renderQuestionNav() {
+  questionNav.innerHTML = '';
+  selectedQuestions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = i + 1;
+    if (userAnswers[i] !== null) btn.classList.add('answered');
+    if (i === currentQuestionIndex) btn.classList.add('current');
+    btn.addEventListener('click', () => {
+      currentQuestionIndex = i;
+      showQuestion();
+      renderQuestionNav();
     });
+    questionNav.appendChild(btn);
+  });
+}
 
-    confirmNo.addEventListener('click', () => {
-      customConfirm.style.display = 'none';
-    });
+function showQuestion() {
+  const q = selectedQuestions[currentQuestionIndex];
+  questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
+  questionTextEl.textContent = q.question;
 
-    function finishQuiz() {
-      clearInterval(timer);
-      quizContainer.style.display = 'none';
-      resultContainer.style.display = 'flex';
+  optionsContainer.innerHTML = '';
 
-      let correctCount = 0;
-      resultsList.innerHTML = '';
+  q.options.forEach((optionText, i) => {
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'option';
+    optionDiv.textContent = String.fromCharCode(65 + i) + ". " + optionText;
+    
+    // Add keyboard shortcut badge
+    const keyBadge = document.createElement('div');
+    keyBadge.className = 'key-badge';
+    keyBadge.textContent = String.fromCharCode(65 + i);
+    optionDiv.appendChild(keyBadge);
 
-      selectedQuestions.forEach((q, idx) => {
-        const userAnsIndex = userAnswers[idx];
-        const isCorrect = userAnsIndex === q.answer;
-        if (isCorrect) correctCount++;
-
-        const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
-        const correctAnswerText = q.options[q.answer];
-
-        const div = document.createElement('div');
-        div.className = 'result-question';
-        div.innerHTML = `
-          <div><strong>Q${idx + 1}:</strong> ${q.question}</div>
-          <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAnswerText}</span></div>
-          ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${correctAnswerText}</span></div>`}
-        `;
-        resultsList.appendChild(div);
-      });
-
-      scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
-      
-      // Add performance comment
-      let comment = "";
-      const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
-      
-      if (percentage >= 80) comment = "Excellent work! You have a strong grasp of this material.";
-      else if (percentage >= 60) comment = "Good effort! Review the incorrect answers to improve.";
-      else comment = "Keep studying! Focus on the topics you missed.";
-      
-      scoreEl.innerHTML += `<div style="margin-top:10px;font-weight:normal">${comment}</div>`;
+    if(userAnswers[currentQuestionIndex] === i) {
+      optionDiv.classList.add('selected');
     }
 
-    retryBtn.addEventListener('click', () => {
-      initQuiz();
+    optionDiv.addEventListener('click', () => {
+      selectOption(i);
     });
 
-    // Dark Mode Toggle
-    darkModeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
-    });
+    optionsContainer.appendChild(optionDiv);
+  });
 
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      // Ignore if focus is on input elements
-      if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
-        return;
-      }
-      
-      const key = e.key.toUpperCase();
-      
-      // Option selection
-      if (key >= 'A' && key <= 'E') {
-        const optionIndex = key.charCodeAt(0) - 65;
-        const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
-        
-        if (optionIndex < currentOptions.length) {
-          selectOption(optionIndex);
-        }
-      }
-      
-      // Navigation
-      switch(key) {
-        case 'P':
-          if (!prevBtn.disabled) prevBtn.click();
-          break;
-        case 'N':
-          if (!nextBtn.disabled) nextBtn.click();
-          break;
-      }
-    });
+  prevBtn.disabled = currentQuestionIndex === 0;
+  nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
+  submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
 
-    // Initialize everything hidden
-    quizContainer.style.display = 'none';
-    resultContainer.style.display = 'none';
-    submitBtn.style.display = 'inline-block';
+  renderQuestionNav();
+}
+
+function selectOption(optionIndex) {
+  userAnswers[currentQuestionIndex] = optionIndex;
+  
+  Array.from(optionsContainer.children).forEach((optEl, idx) => {
+    optEl.classList.toggle('selected', idx === optionIndex);
+  });
+
+  submitBtn.disabled = false;
+  renderQuestionNav();
+}
+
+// Navigation buttons
+prevBtn.addEventListener('click', () => {
+  if(currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    showQuestion();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  if(currentQuestionIndex < selectedQuestions.length - 1) {
+    currentQuestionIndex++;
+    showQuestion();
+  }
+});
+
+// Submit button shows custom confirmation dialog
+submitBtn.addEventListener('click', () => {
+  customConfirm.style.display = 'flex';
+});
+
+// Confirm dialog buttons
+confirmYes.addEventListener('click', () => {
+  customConfirm.style.display = 'none';
+  finishQuiz();
+});
+
+confirmNo.addEventListener('click', () => {
+  customConfirm.style.display = 'none';
+});
+
+function finishQuiz() {
+  clearInterval(timer);
+  quizContainer.style.display = 'none';
+  resultContainer.style.display = 'flex';
+
+  let correctCount = 0;
+  resultsList.innerHTML = '';
+
+  selectedQuestions.forEach((q, idx) => {
+    const userAnsIndex = userAnswers[idx];
+    const isCorrect = userAnsIndex === q.answer;
+    if (isCorrect) correctCount++;
+
+    const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
+    const correctAnswerText = q.options[q.answer];
+
+    const div = document.createElement('div');
+    div.className = 'result-question';
+    div.innerHTML = `
+      <div><strong>Q${idx + 1}:</strong> ${q.question}</div>
+      <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAnswerText}</span></div>
+      ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${correctAnswerText}</span></div>`}
+    `;
+    resultsList.appendChild(div);
+  });
+
+  scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
+  
+  // Add performance comment
+  let comment = "";
+  const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
+  
+  if (percentage >= 80) comment = "Excellent work! You have a strong grasp of this material.";
+  else if (percentage >= 60) comment = "Good effort! Review the incorrect answers to improve.";
+  else comment = "Keep studying! Focus on the topics you missed.";
+  
+  scoreEl.innerHTML += `<div style="margin-top:10px;font-weight:normal">${comment}</div>`;
+}
+
+retryBtn.addEventListener('click', () => {
+  initQuiz();
+});
+
+// Dark Mode Toggle
+darkModeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  // Ignore if focus is on input elements
+  if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
+    return;
+  }
+  
+  const key = e.key.toUpperCase();
+  
+  // Option selection
+  if (key >= 'A' && key <= 'E') {
+    const optionIndex = key.charCodeAt(0) - 65;
+    const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
+    
+    if (optionIndex < currentOptions.length) {
+      selectOption(optionIndex);
+    }
+  }
+  
+  // Navigation
+  switch(key) {
+    case 'P':
+      if (!prevBtn.disabled) prevBtn.click();
+      break;
+    case 'N':
+      if (!nextBtn.disabled) nextBtn.click();
+      break;
+  }
+});
