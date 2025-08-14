@@ -1001,376 +1001,268 @@ const questions = [
   }
 ];
 // Your full JS code with fixes:
-const questionNavMobile = document.getElementById('question-nav-mobile');
 
-const startScreen = document.getElementById('start-screen');
-const startQuizBtn = document.getElementById('start-quiz-btn');
-const quizContainer = document.getElementById('quiz-container');
-const resultContainer = document.getElementById('result-container');
-const app = document.getElementById('app');
 
-startQuizBtn.addEventListener('click', () => {
-  startScreen.style.display = 'none';
-  app.style.display = 'flex';  // or 'block' depending on your CSS
+    // UI Elements
+    const questionNav = document.getElementById('question-nav');
+    const startScreen = document.getElementById('start-screen');
+    const startQuizBtn = document.getElementById('start-quiz-btn');
+    const quizContainer = document.getElementById('quiz-container');
+    const resultContainer = document.getElementById('result-container');
+    const app = document.getElementById('app');
+    const timerEl = document.getElementById('timer');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const scoreEl = document.getElementById('score');
+    const resultsList = document.getElementById('results-list');
+    const retryBtn = document.getElementById('retry-btn');
+    const customConfirm = document.getElementById('customConfirm');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
 
-  initQuiz(); // call your quiz initializer here
-});
+    // Quiz variables
+    const TOTAL_QUESTIONS = 45;
+    const TIME_LIMIT = 45 * 60; // in seconds
+    let selectedQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let timer;
+    let timeRemaining = TIME_LIMIT;
 
-const timerEl = document.getElementById('timer');
-const questionNumberEl = document.getElementById('question-number');
-const questionTextEl = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const submitBtn = document.getElementById('submit-btn');
+    // Initialize quiz
+    startQuizBtn.addEventListener('click', () => {
+      startScreen.style.display = 'none';
+      app.style.display = 'flex';
+      initQuiz();
+    });
 
-const scoreEl = document.getElementById('score');
-const resultsList = document.getElementById('results-list');
-const retryBtn = document.getElementById('retry-btn');
+    function initQuiz() {
+      // Shuffle and pick questions
+      const shuffled = shuffleArray([...questions]);
+      selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
 
-const questionNav = document.getElementById('question-nav');
+      currentQuestionIndex = 0;
+      userAnswers = new Array(selectedQuestions.length).fill(null);
 
-const customConfirm = document.getElementById('customConfirm');
-const confirmYes = document.getElementById('confirmYes');
-const confirmNo = document.getElementById('confirmNo');
+      timeRemaining = TIME_LIMIT;
+      updateTimerDisplay();
 
-const TOTAL_QUESTIONS = 50;
-const TIME_LIMIT = 45 * 60; // in seconds
+      showQuestion();
 
-let selectedQuestions = [];
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let timer;
-let timeRemaining = TIME_LIMIT;
-// Run once on load
-handleSidebarPosition();
+      prevBtn.disabled = true;
+      nextBtn.disabled = false;
+      submitBtn.disabled = true;
 
-// Run on resize
-window.addEventListener('resize', handleSidebarPosition);
+      quizContainer.style.display = 'flex';
+      resultContainer.style.display = 'none';
 
-function initQuiz() {
-  // Shuffle and pick questions
-  const shuffled = shuffleArray([...questions]);
-  selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
+      startTimer();
+    }
 
-  currentQuestionIndex = 0;
-  userAnswers = new Array(selectedQuestions.length).fill(null);
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
 
-  timeRemaining = TIME_LIMIT;
-  updateTimerDisplay();
-
-  showQuestion();
-
-  prevBtn.disabled = true;
-  nextBtn.disabled = false;
-  submitBtn.style.display = 'none';
-  submitBtn.disabled = true;
-
-  quizContainer.style.display = 'flex';
-  resultContainer.style.display = 'none';
-
-  startTimer();
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function startTimer() {
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeRemaining--;
-    updateTimerDisplay();
-    if (timeRemaining <= 0) {
+    function startTimer() {
       clearInterval(timer);
-      finishQuiz();
+      timer = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining <= 0) {
+          clearInterval(timer);
+          finishQuiz();
+        }
+      }, 1000);
     }
-  }, 1000);
-}
 
-function updateTimerDisplay() {
-  let min = Math.floor(timeRemaining / 60);
-  let sec = timeRemaining % 60;
-  timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
-}
-function renderQuestionNav() {
-  [questionNav, questionNavMobile].forEach(nav => {
-    nav.innerHTML = '';
-    selectedQuestions.forEach((_, i) => {
-      const btn = document.createElement('button');
-      btn.textContent = i + 1;
-      if (userAnswers[i] !== null) btn.classList.add('answered');
-      if (i === currentQuestionIndex) btn.classList.add('current');
-      btn.addEventListener('click', () => {
-        currentQuestionIndex = i;
-        showQuestion();
-        renderQuestionNav();
+    function updateTimerDisplay() {
+      let min = Math.floor(timeRemaining / 60);
+      let sec = timeRemaining % 60;
+      timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+    }
+
+    function renderQuestionNav() {
+      questionNav.innerHTML = '';
+      selectedQuestions.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = i + 1;
+        if (userAnswers[i] !== null) btn.classList.add('answered');
+        if (i === currentQuestionIndex) btn.classList.add('current');
+        btn.addEventListener('click', () => {
+          currentQuestionIndex = i;
+          showQuestion();
+          renderQuestionNav();
+        });
+        questionNav.appendChild(btn);
       });
-      nav.appendChild(btn);
-    });
-    nav.scrollLeft = 0; // Reset scroll left for mobile nav
-  });
-}
-
-
-function showQuestion() {
-  const q = selectedQuestions[currentQuestionIndex];
-  questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
-  questionTextEl.textContent = q.question;
-
-  optionsContainer.innerHTML = '';
-
-  q.options.forEach((optionText, i) => {
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'option';
-    optionDiv.tabIndex = 0;
-    optionDiv.setAttribute('role', 'radio');
-    optionDiv.setAttribute('aria-checked', 'false');
-    optionDiv.setAttribute('data-index', i);
-    optionDiv.textContent = optionText;
-
-    if(userAnswers[currentQuestionIndex] === i) {
-      optionDiv.classList.add('selected');
-      optionDiv.setAttribute('aria-checked', 'true');
     }
 
-    optionDiv.addEventListener('click', () => {
-      selectOption(i);
-    });
+    function showQuestion() {
+      const q = selectedQuestions[currentQuestionIndex];
+      questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
+      questionTextEl.textContent = q.question;
 
-    optionDiv.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectOption(i);
-      }
-    });
+      optionsContainer.innerHTML = '';
 
-    optionsContainer.appendChild(optionDiv);
-  });
+      q.options.forEach((optionText, i) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.textContent = String.fromCharCode(65 + i) + ". " + optionText;
+        
+        // Add keyboard shortcut badge
+        const keyBadge = document.createElement('div');
+        keyBadge.className = 'key-badge';
+        keyBadge.textContent = String.fromCharCode(65 + i);
+        optionDiv.appendChild(keyBadge);
 
-  prevBtn.disabled = currentQuestionIndex === 0;
+        if(userAnswers[currentQuestionIndex] === i) {
+          optionDiv.classList.add('selected');
+        }
 
-  // Allow next always except on last question
-  nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
+        optionDiv.addEventListener('click', () => {
+          selectOption(i);
+        });
 
-  // Submit button enable/disable based on answer
-  submitBtn.style.display = 'inline-block';
-  submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
+        optionsContainer.appendChild(optionDiv);
+      });
 
-  renderQuestionNav();
-}
+      prevBtn.disabled = currentQuestionIndex === 0;
+      nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
+      submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
 
-function selectOption(optionIndex) {
-  userAnswers[currentQuestionIndex] = optionIndex;
-
-  Array.from(optionsContainer.children).forEach(optEl => {
-    optEl.classList.toggle('selected', Number(optEl.getAttribute('data-index')) === optionIndex);
-    optEl.setAttribute('aria-checked', Number(optEl.getAttribute('data-index')) === optionIndex ? 'true' : 'false');
-  });
-
-  submitBtn.disabled = false;
-
-  renderQuestionNav();
-}
-
-prevBtn.addEventListener('click', () => {
-  if(currentQuestionIndex > 0) {
-    currentQuestionIndex--;
-    showQuestion();
-  }
-});
-
-nextBtn.addEventListener('click', () => {
-  if(currentQuestionIndex < selectedQuestions.length - 1) {
-    currentQuestionIndex++;
-    showQuestion();
-  }
-});
-
-// Submit button shows custom confirmation dialog
-submitBtn.addEventListener('click', () => {
-  customConfirm.style.display = 'flex';
-});
-
-// Confirm dialog buttons
-confirmYes.addEventListener('click', () => {
-  customConfirm.style.display = 'none';
-  finishQuiz();
-});
-
-confirmNo.addEventListener('click', () => {
-  customConfirm.style.display = 'none';
-});
-
-function finishQuiz() {
-  clearInterval(timer);
-
-  quizContainer.style.display = 'none';
-  resultContainer.style.display = 'flex';
-
-  let correctCount = 0;
-  resultsList.innerHTML = '';
-
-  selectedQuestions.forEach((q, idx) => {
-    const userAnsIndex = userAnswers[idx];
-    const isCorrect = userAnsIndex === q.answer;
-    if (isCorrect) correctCount++;
-
-    const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
-    const correctAnswerText = q.options[q.answer];
-
-    const div = document.createElement('div');
-    div.className = 'result-question';
-
-    div.innerHTML = `
-      <div><strong>Q${idx + 1}:</strong> ${q.question}</div>
-      <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAnswerText}</span></div>
-      ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${correctAnswerText}</span></div>`}
-    `;
-
-    resultsList.appendChild(div);
-  });
-
-  scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
-}
-
-retryBtn.addEventListener('click', () => {
-  initQuiz();
-});
-
-// Disable right-click, text selection, and copy shortcuts (optional)
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('keydown', e => {
-  if (e.ctrlKey && ['c', 'u', 's', 'a'].includes(e.key.toLowerCase())) {
-    e.preventDefault();
-  }
-});
-
-// Blur warning overlay
-(function() {
-  const overlay = document.createElement('div');
-  overlay.id = 'blur-warning';
-  Object.assign(overlay.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.9)',
-    color: 'white',
-    fontSize: '2rem',
-    display: 'none',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: '9999',
-    textAlign: 'center',
-    padding: '20px',
-    flexDirection: 'column',
-    display: 'flex'
-  });
-  overlay.innerHTML = `
-    ⚠ You are not allowed to leave the test page! <br><br>
-    <button id="resumeQuiz" style="padding: 10px 20px; font-size: 1.2rem; cursor: pointer;">
-        Resume Quiz
-    </button>
-  `;
-  document.body.appendChild(overlay);
-
-  window.addEventListener('blur', () => {
-    overlay.style.display = 'flex';
-  });
-
-  document.getElementById('resumeQuiz').addEventListener('click', () => {
-    overlay.style.display = 'none';
-  });
-})();
-
-// Responsive sidebar reposition for mobile
-function handleSidebarPosition() {
-  const sidebar = document.getElementById('sidebar');
-  const mainContent = document.getElementById('main-content');
-  const app = document.getElementById('app');
-
-  if(window.innerWidth <= 768) {
-    // On small screens, move sidebar ABOVE main quiz content vertically
-    if (app.firstChild !== sidebar) {
-      app.insertBefore(sidebar, mainContent);
-      sidebar.style.width = '100%';
-      sidebar.style.marginBottom = '1rem';
-      // Optionally add mobile styles here:
-      sidebar.style.order = '0';
+      renderQuestionNav();
     }
-  } else {
-    // On larger screens, sidebar on the left horizontally
-    if (app.firstChild !== sidebar) {
-      app.insertBefore(sidebar, mainContent);
-      sidebar.style.width = '200px';  // Adjust width for desktop
-      sidebar.style.marginBottom = '0';
-      sidebar.style.order = '';
+
+    function selectOption(optionIndex) {
+      userAnswers[currentQuestionIndex] = optionIndex;
+      
+      Array.from(optionsContainer.children).forEach((optEl, idx) => {
+        optEl.classList.toggle('selected', idx === optionIndex);
+      });
+
+      submitBtn.disabled = false;
+      renderQuestionNav();
     }
-  }
-}
 
-// Run on load and resize
-window.addEventListener('load', handleSidebarPosition);
-window.addEventListener('resize', handleSidebarPosition);
-
-// Initialize everything hidden, wait for user to start quiz
-quizContainer.style.display = 'none';
-resultContainer.style.display = 'none';
-submitBtn.style.display = 'none';
-
-
-// === ADD KEYBOARD NAVIGATION ===
-
-document.addEventListener('keydown', function(event) {
-  // Ignore key presses if user is typing in input/textarea/button
-  const activeTag = document.activeElement.tagName.toLowerCase();
-  if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'button') {
-    return;
-  }
-
-  const key = event.key.toLowerCase();
-
-  switch(key) {
-    case 'arrowright':
-    case 'n':
-      // Next question
-      if(currentQuestionIndex < selectedQuestions.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-      }
-      break;
-
-    case 'arrowleft':
-    case 'p':
-      // Previous question
+    // Navigation buttons
+    prevBtn.addEventListener('click', () => {
       if(currentQuestionIndex > 0) {
         currentQuestionIndex--;
         showQuestion();
       }
-      break;
+    });
 
-    case 'a':
-      selectOption(0);
-      break;
-    case 'b':
-      selectOption(1);
-      break;
-    case 'c':
-      selectOption(2);
-      break;
-    case 'd':
-      selectOption(3);
-      break;
-    case 'e':
-      selectOption(4);
-      break;
-  }
-});
+    nextBtn.addEventListener('click', () => {
+      if(currentQuestionIndex < selectedQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      }
+    });
+
+    // Submit button shows custom confirmation dialog
+    submitBtn.addEventListener('click', () => {
+      customConfirm.style.display = 'flex';
+    });
+
+    // Confirm dialog buttons
+    confirmYes.addEventListener('click', () => {
+      customConfirm.style.display = 'none';
+      finishQuiz();
+    });
+
+    confirmNo.addEventListener('click', () => {
+      customConfirm.style.display = 'none';
+    });
+
+    function finishQuiz() {
+      clearInterval(timer);
+      quizContainer.style.display = 'none';
+      resultContainer.style.display = 'flex';
+
+      let correctCount = 0;
+      resultsList.innerHTML = '';
+
+      selectedQuestions.forEach((q, idx) => {
+        const userAnsIndex = userAnswers[idx];
+        const isCorrect = userAnsIndex === q.answer;
+        if (isCorrect) correctCount++;
+
+        const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
+        const correctAnswerText = q.options[q.answer];
+
+        const div = document.createElement('div');
+        div.className = 'result-question';
+        div.innerHTML = `
+          <div><strong>Q${idx + 1}:</strong> ${q.question}</div>
+          <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAnswerText}</span></div>
+          ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${correctAnswerText}</span></div>`}
+        `;
+        resultsList.appendChild(div);
+      });
+
+      scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
+      
+      // Add performance comment
+      let comment = "";
+      const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
+      
+      if (percentage >= 80) comment = "Excellent work! You have a strong grasp of this material.";
+      else if (percentage >= 60) comment = "Good effort! Review the incorrect answers to improve.";
+      else comment = "Keep studying! Focus on the topics you missed.";
+      
+      scoreEl.innerHTML += `<div style="margin-top:10px;font-weight:normal">${comment}</div>`;
+    }
+
+    retryBtn.addEventListener('click', () => {
+      initQuiz();
+    });
+
+    // Dark Mode Toggle
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Ignore if focus is on input elements
+      if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
+        return;
+      }
+      
+      const key = e.key.toUpperCase();
+      
+      // Option selection
+      if (key >= 'A' && key <= 'E') {
+        const optionIndex = key.charCodeAt(0) - 65;
+        const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
+        
+        if (optionIndex < currentOptions.length) {
+          selectOption(optionIndex);
+        }
+      }
+      
+      // Navigation
+      switch(key) {
+        case 'P':
+          if (!prevBtn.disabled) prevBtn.click();
+          break;
+        case 'N':
+          if (!nextBtn.disabled) nextBtn.click();
+          break;
+      }
+    });
+
+    // Initialize everything hidden
+    quizContainer.style.display = 'none';
+    resultContainer.style.display = 'none';
+    submitBtn.style.display = 'inline-block';
