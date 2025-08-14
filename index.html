@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HAYUx CBT Practice Quiz</title>
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Marquee Banner -->
@@ -16,18 +16,20 @@
   <nav>
     <div class="logo">HAYUx CBT</div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="create.html">Create Quiz</a>
-      <a href="#">Download PDFs</a>
-      <a href="contact.html">Contact</a>
+      <a href="https://hayux-cbt.onrender.com/">Home</a>
+      <a href="https://hayux-cbt.onrender.com/create.html">Create Quiz</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe952o-qahcPcVhStlQPgxSetmyPjYA3_W725NUTfRVNDPuXw/viewform?usp=header">Suggest Question</a>
+      <a href="https://hayux-cbt.onrender.com/contact.html">Contact</a>
     </div>
   </nav>
 
   <!-- Quiz Header -->
   <div class="quiz-header">
     <h1>HAYUx CBT Practice Quiz</h1>
-    <div class="subheader">ME224:THERMOSCIENCE</div>
-    
+    <div class="subheader">ME224: THERMO-SCIENCE</div>
+    <button id="dark-mode-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">
+      🌙 Dark Mode
+    </button>
   </div>
 
   <div id="app" style="display: none;">
@@ -45,9 +47,9 @@
         <div id="options-container"></div>
 
         <div id="navigation">
-          <button id="prev-btn">Previous</button>
+          <button id="prev-btn">Previous (P)</button>
           <button id="submit-btn" disabled>Submit Quiz</button>
-          <button id="next-btn">Next</button>
+          <button id="next-btn">Next (N)</button>
         </div>
       </div>
 
@@ -63,7 +65,32 @@
   <!-- Start screen - shown initially -->
   <div id="start-screen">
     <h1>Welcome to HAYUx CBT Practice Quiz</h1>
-    <p>Test your knowledge with this interactive quiz. You'll have 45 minutes to answer 50 questions. Good luck!</p>
+    <p>Test your knowledge with this interactive quiz. You'll have 45 minutes to answer 45 questions. Good luck!</p>
+    
+    <div class="keyboard-shortcuts">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row">
+        <span>Select option A</span>
+        <span class="key">A</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Select option B</span>
+        <span class="key">B</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Select option C</span>
+        <span class="key">C</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Previous question</span>
+        <span class="key">P</span>
+      </div>
+      <div class="shortcut-row">
+        <span>Next question</span>
+        <span class="key">N</span>
+      </div>
+    </div>
+
     <button id="start-quiz-btn">Start Quiz Now</button>
   </div>
 
@@ -76,6 +103,6 @@
     </div>
   </div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
