@@ -1,50 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script defer data-domain="cbt-test-ehsl.onrender.com" src="https://plausible.io/js/script.js"></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ME224-CBT Practice Quiz</title>
-  <link rel="stylesheet" href="style.css" />
-<script src="https://cdn.counter.dev/script.js" data-id="e195e836-8ac7-40ba-a4b1-28231d68ff49" data-utcoffset="1"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAYUx CBT Practice Quiz</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    HAYUX CBT Practice Quiz
-    <button id="dark-mode-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode" style="margin-left: 15px; padding: 5px 10px; font-weight: 700; cursor: pointer; border-radius: 5px; border: none; background: #2563eb; color: white;">
-      🌙
-    </button>
-  </header>
+  <!-- Marquee Banner -->
+  <div class="marquee-container">
+    <marquee behavior="scroll" direction="left">Welcome to HAYUx CBT Platform - Empowering your learning journey!</marquee>
+  </div>
 
-  <h2 class="subheader">ME224:THERMOSCIENCE</h2>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">HAYUx CBT</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="create.html">Create Quiz</a>
+      <a href="#">Download PDFs</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
 
-  <div id="app" style="display:none; flex-direction: row;">
+  <!-- Quiz Header -->
+  <div class="quiz-header">
+    <h1>HAYUx CBT Practice Quiz</h1>
+    <div class="subheader">ME224:THERMOSCIENCE</div>
+    
+  </div>
+
+  <div id="app" style="display: none;">
     <aside id="sidebar">
       <h2>Questions</h2>
       <div id="question-nav"></div>
     </aside>
 
-    <main id="main-content" style="flex: 1; display: flex; flex-direction: column;">
-      <!-- Mobile question navigation -->
-      <div id="question-nav-mobile"></div>
-
+    <main id="main-content">
       <div id="timer">Time Left: 45:00</div>
 
-      <div id="quiz-container" style="flex: 1; display: flex; flex-direction: column;">
+      <div id="quiz-container">
         <div id="question-number"></div>
         <div id="question-text"></div>
         <div id="options-container"></div>
 
         <div id="navigation">
           <button id="prev-btn">Previous</button>
-                    <button id="submit-btn" disabled>Submit</button>
+          <button id="submit-btn" disabled>Submit Quiz</button>
           <button id="next-btn">Next</button>
-
         </div>
       </div>
 
       <div id="result-container" style="display:none;">
-        <h2>Results</h2>
+        <h2>Quiz Results</h2>
         <div id="score"></div>
         <div id="results-list"></div>
         <button id="retry-btn">Try Again</button>
@@ -53,20 +61,21 @@
   </div>
 
   <!-- Start screen - shown initially -->
-  <div id="start-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-    <h1>Welcome to HAYUX CBT Practice Quiz</h1>
-    <button id="start-quiz-btn" style="padding: 12px 24px; font-size: 1.2rem; cursor: pointer;">Start Quiz</button>
+  <div id="start-screen">
+    <h1>Welcome to HAYUx CBT Practice Quiz</h1>
+    <p>Test your knowledge with this interactive quiz. You'll have 45 minutes to answer 50 questions. Good luck!</p>
+    <button id="start-quiz-btn">Start Quiz Now</button>
   </div>
 
   <!-- Custom confirmation dialog -->
-  <div id="customConfirm" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); color: white; font-size: 1.3rem; align-items: center; justify-content: center; z-index: 9999; flex-direction: column;">
-    <p>Are you sure you want to submit the quiz?</p>
-    <div style="margin-top: 20px;">
-      <button id="confirmYes" style="padding: 10px 20px; margin-right: 10px; cursor: pointer;">Yes</button>
-      <button id="confirmNo" style="padding: 10px 20px; cursor: pointer;">No</button>
+  <div id="customConfirm">
+    <p>Are you sure you want to submit the quiz? You still have time remaining.</p>
+    <div>
+      <button id="confirmYes">Yes, Submit</button>
+      <button id="confirmNo">No, Continue</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
