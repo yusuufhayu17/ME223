@@ -285,7 +285,7 @@ document.addEventListener('keydown', function(e) {
 
 // Questions array remains the same as before
 
-];const questions = [
+const questions = [
   // Mechanics Questions (1-45)
   {
     "question": "Rectilinear motion of a particle is given by $x=t^3-3t^2$. Acceleration at $t=2$ sec is:",
