@@ -1,3 +1,10 @@
+/* Add KaTeX-specific styles */
+.katex {
+  font-size: 1.1em !important;
+  padding: 0 2px;
+}
+
+/* Existing styles below */
 /* Modern Light Blue Theme */
 :root {
   --primary: #4fc3f7;
@@ -13,6 +20,8 @@
   --transition: all 0.3s ease;
   --border-radius: 8px;
 }
+
+/* ... rest of your CSS remains unchanged ... */
 
 * {
   margin: 0;
