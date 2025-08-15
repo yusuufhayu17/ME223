@@ -1,4 +1,706 @@
 const questions = [
+  
+  {
+    "question": "Rectilinear motion of a particle is given by $x=t^3-3t^2$. Acceleration at $t=2$ sec is:",
+    "options": [
+      "A. $0 \\text{m/s}^2$",
+      "B. $6 \\text{m/s}^2$",
+      "C. $12 \\text{m/s}^2$",
+      "D. $-6 \\text{m/s}^2$"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "For constant acceleration $a_0$, the equation for displacement $s$ is:",
+    "options": [
+      "A. $s=v_0t+\\frac{1}{2}a_0t^2$",
+      "B. $v=v_0+a_0s$",
+      "C. $s=\\frac{v^2-v_0^2}{2a_0}$",
+      "D. $v^2=v_0^2+2a_0t$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A particle’s velocity is $v=15t^2-4t$ m/s. Displacement from $t=0$ to $t=10$ sec is:",
+    "options": [
+      "A. 4800 m",
+      "B. 2500 m",
+      "C. 3600 m",
+      "D. 1500 m"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Normal acceleration $a_n$ in curvilinear motion is:",
+    "options": [
+      "A. $\\frac{dv}{dt}$",
+      "B. $\\frac{v^2}{\\rho}$",
+      "C. $\\frac{v}{\\rho}$",
+      "D. $\\rho\\frac{d\\theta}{dt}$"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "A particle moves with $v_x=20t+5$ and $v_y=t^2-20$. Acceleration at $t=2$ sec is:",
+    "options": [
+      "A. $(20,4) \\text{m/s}^2$",
+      "B. $(40,2) \\text{m/s}^2$",
+      "C. $(25,-16) \\text{m/s}^2$",
+      "D. $(0,4) \\text{m/s}^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Newton’s second law for a particle is:",
+    "options": [
+      "A. $F=ma$",
+      "B. $F=\\frac{dp}{dt}$",
+      "C. Both A and B",
+      "D. $F=mv$"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "Work done by a spring force $F=-kx$ from $x_1$ to $x_2$ is:",
+    "options": [
+      "A. $\\frac{1}{2}k(x_2^2-x_1^2)$",
+      "B. $-\\frac{1}{2}k(x_2^2-x_1^2)$",
+      "C. $\\frac{1}{2}k(x_1-x_2)$",
+      "D. $kx_1x_2$"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "Kinetic energy of a mass $m$ at height $h$ (using conservation of energy) is:",
+    "options": [
+      "A. $mg(h_{max}-h)$",
+      "B. $\\frac{1}{2}mv_0^2$",
+      "C. $mg(h-h_0)$",
+      "D. $\\frac{1}{2}mv^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Impulse-momentum principle states:",
+    "options": [
+      "A. $\\int Fdt = m\\Delta v$",
+      "B. $F=m\\frac{dv}{dt}$",
+      "C. $\\frac{1}{2}mv^2=Fs$",
+      "D. $\\tau=I\\alpha$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For a particle under gravity, the work-energy principle is:",
+    "options": [
+      "A. $T_1+V_1=T_2+V_2$",
+      "B. $F=ma$",
+      "C. $\\int vdt=s$",
+      "D. $v^2=u^2+2as$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "In pure translation, a rigid body has:",
+    "options": [
+      "A. Same velocity for all points",
+      "B. Angular acceleration",
+      "C. Curved paths",
+      "D. Variable angular velocity"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Tangential acceleration $a_t$ for a rotating rigid body is:",
+    "options": [
+      "A. $r\\alpha$",
+      "B. $r\\omega$",
+      "C. $\\omega^2r$",
+      "D. $\\frac{v^2}{r}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A wheel of radius $r=0.5$ m has $\\omega=4t^2$ rad/s. Angular acceleration at $t=3$ sec is:",
+    "options": [
+      "A. $24 \\text{rad/s}^2$",
+      "B. $12 \\text{rad/s}^2$",
+      "C. $36 \\text{rad/s}^2$",
+      "D. $8 \\text{rad/s}^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Relative velocity of point B w.r.t. point A on a rigid body is:",
+    "options": [
+      "A. $v_B=v_A+\\omega \\times r_{B/A}$",
+      "B. $v_B=v_A+r_{B/A}$",
+      "C. $v_B=\\omega \\times r_{B/A}$",
+      "D. $v_B=v_A$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For fixed-axis rotation, normal acceleration is:",
+    "options": [
+      "A. $\\omega^2r$",
+      "B. $\\alpha r$",
+      "C. $\\frac{d\\omega}{dt}$",
+      "D. $\\omega r$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Mass moment of inertia of a disk about its central axis is:",
+    "options": [
+      "A. $\\frac{1}{2}mr^2$",
+      "B. $mr^2$",
+      "C. $\\frac{1}{3}mr^2$",
+      "D. $\\frac{2}{5}mr^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Newton’s second law for rotation is:",
+    "options": [
+      "A. $\\sum\\tau=I\\alpha$",
+      "B. $\\sum F=ma$",
+      "C. $\\sum\\tau=I\\omega$",
+      "D. $\\sum F=\\frac{dp}{dt}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Work-energy principle for a rigid body is:",
+    "options": [
+      "A. $T_1+U_{1-2}=T_2$",
+      "B. $\\frac{1}{2}I\\omega_1^2+\\int\\tau d\\theta=\\frac{1}{2}I\\omega_2^2$",
+      "C. $\\sum\\tau=I\\alpha$",
+      "D. $\\Delta H=\\int\\tau dt$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Angular momentum about a fixed axis is:",
+    "options": [
+      "A. $I\\omega$",
+      "B. $mvr$",
+      "C. $\\frac{1}{2}I\\omega^2$",
+      "D. $\\tau\\Delta t$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "D’Alembert’s principle for rotation states:",
+    "options": [
+      "A. $\\sum\\tau-I\\alpha=0$",
+      "B. $\\sum F-ma=0$",
+      "C. $\\sum\\tau=0$",
+      "D. $I\\omega=\\text{constant}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Relative velocity of car A w.r.t. car B is:",
+    "options": [
+      "A. $v_{A/B}=v_A-v_B$",
+      "B. $v_{A/B}=v_B-v_A$",
+      "C. $v_{A/B}=v_A+v_B$",
+      "D. $v_{A/B}=\\frac{v_A}{v_B}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Car A moves east at 200 km/h, car B west at 250 km/h. Velocity of B relative to A is:",
+    "options": [
+      "A. 50 km/h west",
+      "B. 450 km/h west",
+      "C. 50 km/h east",
+      "D. 450 km/h east"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "If two jets A and B have velocities $v_A=800 \\text{km/h}$ east and $v_{B/A}$ at 60°, the true velocity of B is found using:",
+    "options": [
+      "A. $v_B=v_A+v_{B/A}$",
+      "B. $v_B=v_A-v_{B/A}$",
+      "C. $v_B=v_{B/A}-v_A$",
+      "D. $v_B=v_A \\times v_{B/A}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For translating axes, relative acceleration $a_{A/B}$ is:",
+    "options": [
+      "A. $a_A-a_B$",
+      "B. $a_B-a_A$",
+      "C. $a_A+a_B$",
+      "D. $\\frac{a_A}{a_B}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A train (600 km/h) passes a car (45 km/h). Velocity of train relative to car depends on:",
+    "options": [
+      "A. Angle between their paths",
+      "B. Mass of the train",
+      "C. Acceleration of the car",
+      "D. Time of observation"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Range R of a projectile on a horizontal surface is:",
+    "options": [
+      "A. $\\frac{v_0^2\\sin2\\theta}{g}$",
+      "B. $\\frac{v_0^2\\sin\\theta}{2g}$",
+      "C. $\\frac{2v_0^2\\sin\\theta}{g}$",
+      "D. $\\frac{v_0^2}{g}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Time of flight T for symmetric trajectory is:",
+    "options": [
+      "A. $\\frac{2v_0\\sin\\theta}{g}$",
+      "B. $\\frac{v_0\\sin\\theta}{g}$",
+      "C. $\\frac{v_0\\cos\\theta}{g}$",
+      "D. $\\frac{2v_0}{g}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Maximum height H is given by:",
+    "options": [
+      "A. $\\frac{v_0^2\\sin^2\\theta}{2g}$",
+      "B. $\\frac{v_0^2\\sin2\\theta}{g}$",
+      "C. $\\frac{2v_0^2\\sin\\theta}{g}$",
+      "D. $\\frac{v_0\\sin\\theta}{g}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A projectile fired at 80 m/s at 40° has a range of:",
+    "options": [
+      "A. 643 m",
+      "B. 320 m",
+      "C. 135 m",
+      "D. 256 m"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "In projectile motion, horizontal acceleration is:",
+    "options": [
+      "A. Zero",
+      "B. $g$",
+      "C. $g\\cos\\theta$",
+      "D. $g\\sin\\theta$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "In a velocity-time graph, displacement is:",
+    "options": [
+      "A. Slope",
+      "B. Area under the curve",
+      "C. Maximum value",
+      "D. Intercept"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "In an acceleration-time graph, change in velocity is:",
+    "options": [
+      "A. Slope",
+      "B. Area under the curve",
+      "C. Second derivative",
+      "D. Average value"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "For a bus with velocity-time curve, total distance is:",
+    "options": [
+      "A. Sum of areas under segments",
+      "B. Maximum velocity $\\times$ time",
+      "C. Integral of acceleration",
+      "D. Average velocity $\\times$ time"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The slope of a velocity-time graph gives:",
+    "options": [
+      "A. Displacement",
+      "B. Acceleration",
+      "C. Jerk",
+      "D. Distance"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "In a displacement-time graph, velocity is:",
+    "options": [
+      "A. Area under the curve",
+      "B. Slope",
+      "C. Curvature",
+      "D. Intercept"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "Kinetic energy for a rigid body in plane motion is:",
+    "options": [
+      "A. $\\frac{1}{2}mv_G^2+\\frac{1}{2}I_G\\omega^2$",
+      "B. $\\frac{1}{2}I_O\\omega^2$",
+      "C. $mgh$",
+      "D. $\\frac{1}{2}kx^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Work done by gravity depends on:",
+    "options": [
+      "A. Vertical displacement",
+      "B. Horizontal displacement",
+      "C. Path length",
+      "D. Speed"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Potential energy of a spring is:",
+    "options": [
+      "A. $\\frac{1}{2}kx^2$",
+      "B. $kx$",
+      "C. $-\\frac{1}{2}kx^2$",
+      "D. $\\frac{1}{2}k(x_2^2-x_1^2)$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Conservation of energy applies when:",
+    "options": [
+      "A. Only conservative forces act",
+      "B. Non-conservative forces act",
+      "C. External forces are present",
+      "D. Friction is present"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Work done by a constant force F over displacement s is:",
+    "options": [
+      "A. $F \\cdot s$",
+      "B. $F \\times s$",
+      "C. $\\frac{1}{2}Fs$",
+      "D. $F/s$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A particle in mechanics is:",
+    "options": [
+      "A. Body with negligible size",
+      "B. Body with rotational motion",
+      "C. Rigid body",
+      "D. Body with variable mass"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Kinematics differs from kinetics in that kinematics:",
+    "options": [
+      "A. Describes motion without forces",
+      "B. Analyzes forces causing motion",
+      "C. Applies Newton’s laws",
+      "D. Studies equilibrium"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Rectilinear motion involves:",
+    "options": [
+      "A. Straight-line paths",
+      "B. Curved paths",
+      "C. Rotational motion",
+      "D. Relative motion"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A rigid body is defined as:",
+    "options": [
+      "A. Body with no deformation",
+      "B. Body with negligible mass",
+      "C. Body in equilibrium",
+      "D. Body with constant velocity"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Dynamics is divided into:",
+    "options": [
+      "A. Kinematics and kinetics",
+      "B. Statics and dynamics",
+      "C. Linear and rotational motion",
+      "D. Force and energy"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The radius of curvature $\\rho$ for a path $y(x)$ is:",
+    "options": [
+      "A. $\\frac{[1+(dy/dx)^2]^{3/2}}{|d^2y/dx^2|}$",
+      "B. $\\frac{dy/dx}{d^2y/dx^2}$",
+      "C. $\\frac{|d^2y/dx^2|}{[1+(dy/dx)^2]^{3/2}}$",
+      "D. $\\frac{d^2y/dx^2}{dy/dx}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Coriolis acceleration appears in:",
+    "options": [
+      "A. Rotating reference frames",
+      "B. Inertial frames",
+      "C. Pure translation",
+      "D. Projectile motion"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Relative motion analysis simplifies problems when:",
+    "options": [
+      "A. Moving observers are involved",
+      "B. Absolute acceleration is zero",
+      "C. Forces are balanced",
+      "D. Motion is rectilinear"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For a particle constrained to a path, normal force affects:",
+    "options": [
+      "A. Direction but not speed",
+      "B. Speed but not direction",
+      "C. Both speed and direction",
+      "D. Neither speed nor direction"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Angular acceleration $\\alpha$ is zero in:",
+    "options": [
+      "A. Uniform rotational motion",
+      "B. Linear motion",
+      "C. Accelerated rotation",
+      "D. General plane motion"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The formula for average velocity is:",
+    "options": [
+      "A. $\\frac{\\Delta s}{\\Delta t}$",
+      "B. $\\frac{v+u}{2}$",
+      "C. $\\frac{ds}{dt}$",
+      "D. $\\int adt$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "If acceleration $a=f(v)$, displacement is found using:",
+    "options": [
+      "A. $\\int vdt$",
+      "B. $\\int\\frac{v}{a}dv$",
+      "C. $\\int\\frac{v}{a}dv$",
+      "D. $\\int adv$"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "For curvilinear motion, the magnitude of acceleration is:",
+    "options": [
+      "A. $\\sqrt{a_t^2+a_n^2}$",
+      "B. $\\frac{dv}{dt}$",
+      "C. $\\frac{v^2}{\\rho}$",
+      "D. $\\sqrt{v_x^2+v_y^2}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "In polar coordinates, radial acceleration is:",
+    "options": [
+      "A. $\\ddot{r}-r\\dot{\\theta}^2$",
+      "B. $r\\ddot{\\theta}+2\\dot{r}\\dot{\\theta}$",
+      "C. $\\dot{r}\\dot{\\theta}$",
+      "D. $r\\dot{\\theta}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The work-energy principle for a system of particles is:",
+    "options": [
+      "A. $\\sum F=\\frac{d}{dt}(mv)$",
+      "B. $T_1+\\sum U_{1-2}=T_2$",
+      "C. $\\int F\\cdot dr=0$",
+      "D. $\\Delta V=mg\\Delta h$"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "Impulse is defined as:",
+    "options": [
+      "A. $\\int Fdt$",
+      "B. $F \\cdot s$",
+      "C. $\\frac{1}{2}mv^2$",
+      "D. $mv$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For conservative forces, work done is:",
+    "options": [
+      "A. Path-dependent",
+      "B. Always positive",
+      "C. Independent of path",
+      "D. Zero"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "The angular velocity of a rigid body in fixed-axis rotation is:",
+    "options": [
+      "A. $\\frac{d\\theta}{dt}$",
+      "B. $\\frac{d\\omega}{dt}$",
+      "C. $\\frac{v}{r}$",
+      "D. $\\frac{a_t}{r}$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "General plane motion of a rigid body involves:",
+    "options": [
+      "A. Translation only",
+      "B. Rotation only",
+      "C. Both translation and rotation",
+      "D. No motion"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "The parallel-axis theorem for moment of inertia is:",
+    "options": [
+      "A. $I=I_G+md^2$",
+      "B. $I=I_G-md^2$",
+      "C. $I=\\frac{1}{2}mr^2$",
+      "D. $I=mk^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Centroidal rotation implies rotation about an axis:",
+    "options": [
+      "A. Parallel to centroidal axis",
+      "B. At a distance $d$ from centroid",
+      "C. Passing through the centroid",
+      "D. Fixed in space"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "The formula for kinetic energy of rotation is:",
+    "options": [
+      "A. $\\frac{1}{2}I\\omega^2$",
+      "B. $\\frac{1}{2}mv^2$",
+      "C. $I\\alpha$",
+      "D. $\\tau\\theta$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "Power in rotational motion is:",
+    "options": [
+      "A. $\\tau\\omega$",
+      "B. $\\tau\\theta$",
+      "C. $I\\alpha$",
+      "D. $Fv$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For relative motion with translating axes, acceleration is:",
+    "options": [
+      "A. $a_A=a_B+a_{A/B}$",
+      "B. $a_A=a_B \\times r_{A/B}$",
+      "C. $a_{A/B}=a_A+a_B$",
+      "D. $a_{A/B}=\\alpha \\times r$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "In projectile motion, the vertical velocity at maximum height is:",
+    "options": [
+      "A. Zero",
+      "B. $v_0\\sin\\theta$",
+      "C. $v_0\\cos\\theta$",
+      "D. $gt$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The trajectory equation of a projectile is:",
+    "options": [
+      "A. $y=x\\tan\\theta-\\frac{gx^2}{2v_0^2\\cos^2\\theta}$",
+      "B. $y=x\\tan\\theta$",
+      "C. $y=\\frac{gx^2}{2v_0^2}$",
+      "D. $y=v_0t\\sin\\theta-\\frac{1}{2}gt^2$"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "For graphical analysis, the area under an acceleration-time graph gives:",
+    "options": [
+      "A. Change in velocity",
+      "B. Displacement",
+      "C. Jerk",
+      "D. Distance"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "The slope of a displacement-time graph gives:",
+    "options": [
+      "A. Acceleration",
+      "B. Velocity",
+      "C. Force",
+      "D. Energy"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "D’Alembert’s principle translates dynamics problems into:",
+    "options": [
+      "A. Static equilibrium problems",
+      "B. Energy conservation",
+      "C. Impulse-momentum",
+      "D. Relative motion"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "A particle is idealized as a point when:",
+    "options": [
+      "A. Size is negligible for analysis",
+      "B. It has rotational motion",
+      "C. It is under constant acceleration",
+      "D. Forces are conservative"
+    ],
+    "answer": "A"
+  }
+]
   {
     question: "On which of the following does convective heat transfer coefficient depend?",
     options: [
