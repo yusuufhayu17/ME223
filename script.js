@@ -1,5 +1,5 @@
 
- KaTeX rendering function
+// KaTeX rendering function
 function renderLatex(str) {
   if (!str) return str;
   
