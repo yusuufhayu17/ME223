@@ -1,289 +1,5 @@
 
-// KaTeX rendering function
-function renderLatex(str) {
-  if (!str) return str;
-  
-  // Render LaTeX between $...$
-  return str.replace(/\$(.*?)\$/g, (match, latex) => {
-    try {
-      return katex.renderToString(latex, {
-        throwOnError: false,
-        displayMode: false
-      });
-    } catch (e) {
-      console.error("KaTeX error:", e);
-      return match;
-    }
-  });
-}
 
-// Your full JS code with fixes:
-// UI Elements
-const questionNav = document.getElementById('question-nav');
-const startScreen = document.getElementById('start-screen');
-const startQuizBtn = document.getElementById('start-quiz-btn');
-const quizContainer = document.getElementById('quiz-container');
-const resultContainer = document.getElementById('result-container');
-const app = document.getElementById('app');
-const timerEl = document.getElementById('timer');
-const questionNumberEl = document.getElementById('question-number');
-const questionTextEl = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const submitBtn = document.getElementById('submit-btn');
-const scoreEl = document.getElementById('score');
-const resultsList = document.getElementById('results-list');
-const retryBtn = document.getElementById('retry-btn');
-const customConfirm = document.getElementById('customConfirm');
-const confirmYes = document.getElementById('confirmYes');
-const confirmNo = document.getElementById('confirmNo');
-const darkModeToggle = document.getElementById('dark-mode-toggle');
-
-// Quiz variables
-const TOTAL_QUESTIONS = 45;
-const TIME_LIMIT = 45 * 60; // in seconds
-let selectedQuestions = [];
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let timer;
-let timeRemaining = TIME_LIMIT;
-
-// Initialize quiz
-startQuizBtn.addEventListener('click', () => {
-  startScreen.style.display = 'none';
-  app.style.display = 'flex';
-  initQuiz();
-});
-
-function initQuiz() {
-  // Shuffle and pick questions
-  const shuffled = shuffleArray([...questions]);
-  selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
-
-  currentQuestionIndex = 0;
-  userAnswers = new Array(selectedQuestions.length).fill(null);
-
-  timeRemaining = TIME_LIMIT;
-  updateTimerDisplay();
-
-  showQuestion();
-
-  prevBtn.disabled = true;
-  nextBtn.disabled = false;
-  submitBtn.disabled = true;
-
-  quizContainer.style.display = 'flex';
-  resultContainer.style.display = 'none';
-
-  startTimer();
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function startTimer() {
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeRemaining--;
-    updateTimerDisplay();
-    if (timeRemaining <= 0) {
-      clearInterval(timer);
-      finishQuiz();
-    }
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  let min = Math.floor(timeRemaining / 60);
-  let sec = timeRemaining % 60;
-  timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
-}
-
-function renderQuestionNav() {
-  questionNav.innerHTML = '';
-  selectedQuestions.forEach((_, i) => {
-    const btn = document.createElement('button');
-    btn.textContent = i + 1;
-    if (userAnswers[i] !== null) btn.classList.add('answered');
-    if (i === currentQuestionIndex) btn.classList.add('current');
-    btn.addEventListener('click', () => {
-      currentQuestionIndex = i;
-      showQuestion();
-      renderQuestionNav();
-    });
-    questionNav.appendChild(btn);
-  });
-}
-
-function showQuestion() {
-  const q = selectedQuestions[currentQuestionIndex];
-  questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
-  
-  // Render LaTeX in question
-  questionTextEl.innerHTML = renderLatex(q.question);
-
-  optionsContainer.innerHTML = '';
-
-  q.options.forEach((optionText, i) => {
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'option';
-    
-    // Create span for option text and render LaTeX
-    const textSpan = document.createElement('span');
-    textSpan.innerHTML = renderLatex(String.fromCharCode(65 + i) + ". " + optionText);
-    optionDiv.appendChild(textSpan);
-    
-    // Add keyboard shortcut badge
-    const keyBadge = document.createElement('div');
-    keyBadge.className = 'key-badge';
-    keyBadge.textContent = String.fromCharCode(65 + i);
-    optionDiv.appendChild(keyBadge);
-
-    if(userAnswers[currentQuestionIndex] === i) {
-      optionDiv.classList.add('selected');
-    }
-
-    optionDiv.addEventListener('click', () => {
-      selectOption(i);
-    });
-
-    optionsContainer.appendChild(optionDiv);
-  });
-
-  prevBtn.disabled = currentQuestionIndex === 0;
-  nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
-  submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
-
-  renderQuestionNav();
-}
-
-function selectOption(optionIndex) {
-  userAnswers[currentQuestionIndex] = optionIndex;
-  
-  Array.from(optionsContainer.children).forEach((optEl, idx) => {
-    optEl.classList.toggle('selected', idx === optionIndex);
-  });
-
-  submitBtn.disabled = false;
-  renderQuestionNav();
-}
-
-// Navigation buttons
-prevBtn.addEventListener('click', () => {
-  if(currentQuestionIndex > 0) {
-    currentQuestionIndex--;
-    showQuestion();
-  }
-});
-
-nextBtn.addEventListener('click', () => {
-  if(currentQuestionIndex < selectedQuestions.length - 1) {
-    currentQuestionIndex++;
-    showQuestion();
-  }
-});
-
-// Submit button shows custom confirmation dialog
-submitBtn.addEventListener('click', () => {
-  customConfirm.style.display = 'flex';
-});
-
-// Confirm dialog buttons
-confirmYes.addEventListener('click', () => {
-  customConfirm.style.display = 'none';
-  finishQuiz();
-});
-
-confirmNo.addEventListener('click', () => {
-  customConfirm.style.display = 'none';
-});
-
-function finishQuiz() {
-  clearInterval(timer);
-  quizContainer.style.display = 'none';
-  resultContainer.style.display = 'flex';
-
-  let correctCount = 0;
-  resultsList.innerHTML = '';
-
-  selectedQuestions.forEach((q, idx) => {
-    const userAnsIndex = userAnswers[idx];
-    const isCorrect = userAnsIndex === q.answer;
-    if (isCorrect) correctCount++;
-
-    const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
-    const correctAnswerText = q.options[q.answer];
-
-    const div = document.createElement('div');
-    div.className = 'result-question';
-    div.innerHTML = `
-      <div><strong>Q${idx + 1}:</strong> ${renderLatex(q.question)}</div>
-      <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${renderLatex(userAnswerText)}</span></div>
-      ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${renderLatex(correctAnswerText)}</span></div>`}
-    `;
-    resultsList.appendChild(div);
-  });
-
-  scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
-  
-  // Add performance comment
-  let comment = "";
-  const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
-  
-  if (percentage >= 80) comment = "Excellent work! You have a strong grasp of this material.";
-  else if (percentage >= 60) comment = "Good effort! Review the incorrect answers to improve.";
-  else comment = "Keep studying! Focus on the topics you missed.";
-  
-  scoreEl.innerHTML += `<div style="margin-top:10px;font-weight:normal">${comment}</div>`;
-}
-
-retryBtn.addEventListener('click', () => {
-  initQuiz();
-});
-
-// Dark Mode Toggle
-darkModeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
-});
-
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-  // Ignore if focus is on input elements
-  if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
-    return;
-  }
-  
-  const key = e.key.toUpperCase();
-  
-  // Option selection
-  if (key >= 'A' && key <= 'E') {
-    const optionIndex = key.charCodeAt(0) - 65;
-    const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
-    
-    if (optionIndex < currentOptions.length) {
-      selectOption(optionIndex);
-    }
-  }
-  
-  // Navigation
-  switch(key) {
-    case 'P':
-      if (!prevBtn.disabled) prevBtn.click();
-      break;
-    case 'N':
-      if (!nextBtn.disabled) nextBtn.click();
-      break;
-  }
-});
-
-// Questions array remains the same as before
 
 const questions = [
   // Mechanics Questions (1-45)
@@ -1990,3 +1706,397 @@ const questions = [
     "answer": 1
   }
 ];
+
+    // KaTeX rendering function
+    function renderLatex(str) {
+      if (!str) return str;
+      
+      // Render LaTeX between $...$
+      return str.replace(/\$(.*?)\$/g, (match, latex) => {
+        try {
+          return katex.renderToString(latex, {
+            throwOnError: false,
+            displayMode: false
+          });
+        } catch (e) {
+          console.error("KaTeX error:", e);
+          return match;
+        }
+      });
+    }
+
+    // UI Elements
+    const questionNav = document.getElementById('question-nav');
+    const startScreen = document.getElementById('start-screen');
+    const startQuizBtn = document.getElementById('start-quiz-btn');
+    const quizContainer = document.getElementById('quiz-container');
+    const resultContainer = document.getElementById('result-container');
+    const app = document.getElementById('app');
+    const timerEl = document.getElementById('timer');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const scoreEl = document.getElementById('score');
+    const resultsList = document.getElementById('results-list');
+    const retryBtn = document.getElementById('retry-btn');
+    const customConfirm = document.getElementById('customConfirm');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const reloadConfirm = document.getElementById('reload-confirm');
+    const reloadSubmit = document.getElementById('reload-submit');
+    const reloadCancel = document.getElementById('reload-cancel');
+    
+    // Question count elements
+    const questionCountInput = document.getElementById('question-count');
+    const countSlider = document.getElementById('count-slider');
+    const decreaseBtn = document.getElementById('decrease-btn');
+    const increaseBtn = document.getElementById('increase-btn');
+    const countDisplay = document.getElementById('count-display');
+    const timeEstimate = document.getElementById('time-estimate');
+
+    // Quiz variables
+    let TOTAL_QUESTIONS = 10; // Default value
+    let timeRemaining; // Will be set dynamically based on question count
+    let selectedQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let timer;
+    let quizInProgress = false;
+
+    // Update question count display
+    function updateCountDisplay() {
+      countDisplay.textContent = `${TOTAL_QUESTIONS} questions`;
+      questionCountInput.value = TOTAL_QUESTIONS;
+      countSlider.value = TOTAL_QUESTIONS;
+      // Show estimated time as 45 seconds per question
+      const totalSeconds = TOTAL_QUESTIONS * 45;
+      const min = Math.floor(totalSeconds / 60);
+      const sec = totalSeconds % 60;
+      let timeStr = '';
+      if (min > 0) {
+        timeStr += `${min} minute${min !== 1 ? 's' : ''}`;
+        if (sec > 0) timeStr += ` ${sec} second${sec !== 1 ? 's' : ''}`;
+      } else {
+        timeStr = `${sec} second${sec !== 1 ? 's' : ''}`;
+      }
+      timeEstimate.textContent = `Estimated time: ${timeStr} (${TOTAL_QUESTIONS} × 45 sec)`;
+    }   // Initialize question count controls
+    decreaseBtn.addEventListener('click', () => {
+      if (TOTAL_QUESTIONS > 10) {
+        TOTAL_QUESTIONS = Math.max(10, TOTAL_QUESTIONS - 5);
+        updateCountDisplay();
+      }
+    });
+
+    increaseBtn.addEventListener('click', () => {
+      if (TOTAL_QUESTIONS < 100) {
+        TOTAL_QUESTIONS = Math.min(100, TOTAL_QUESTIONS + 5);
+        updateCountDisplay();
+      }
+    });
+
+    questionCountInput.addEventListener('change', () => {
+      let value = parseInt(questionCountInput.value);
+      if (isNaN(value) || value < 10) value = 10;
+      if (value > 100) value = 100;
+      TOTAL_QUESTIONS = value;
+      updateCountDisplay();
+    });
+
+    countSlider.addEventListener('input', () => {
+      TOTAL_QUESTIONS = parseInt(countSlider.value);
+      updateCountDisplay();
+    });
+
+    // Initialize quiz
+    startQuizBtn.addEventListener('click', () => {
+      startScreen.style.display = 'none';
+      app.style.display = 'flex';
+      initQuiz();
+    });
+
+    function initQuiz() {
+      // Set time limit based on number of questions (1 minute per question)
+      timeRemaining = TOTAL_QUESTIONS * 45; // 45 seconds per question
+      
+      // Update timer display with initial time
+      updateTimerDisplay();
+
+      // Shuffle and pick questions
+      const shuffled = shuffleArray([...questions]);
+      selectedQuestions = shuffled.slice(0, Math.min(TOTAL_QUESTIONS, questions.length));
+
+      currentQuestionIndex = 0;
+      userAnswers = new Array(selectedQuestions.length).fill(null);
+
+      showQuestion();
+
+      prevBtn.disabled = true;
+      nextBtn.disabled = false;
+      submitBtn.disabled = true;
+
+      quizContainer.style.display = 'flex';
+      resultContainer.style.display = 'none';
+
+      startTimer();
+      
+      // Set quiz in progress flag
+      quizInProgress = true;
+      
+      // Add beforeunload event listener
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining <= 0) {
+          clearInterval(timer);
+          finishQuiz();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      let min = Math.floor(timeRemaining / 60);
+      let sec = timeRemaining % 60;
+      timerEl.textContent = `Time Left: ${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+    }
+
+    function renderQuestionNav() {
+      questionNav.innerHTML = '';
+      selectedQuestions.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = i + 1;
+        if (userAnswers[i] !== null) btn.classList.add('answered');
+        if (i === currentQuestionIndex) btn.classList.add('current');
+        btn.addEventListener('click', () => {
+          currentQuestionIndex = i;
+          showQuestion();
+          renderQuestionNav();
+        });
+        questionNav.appendChild(btn);
+      });
+    }
+
+    function showQuestion() {
+      const q = selectedQuestions[currentQuestionIndex];
+      questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${selectedQuestions.length}`;
+      
+      // Render LaTeX in question
+      questionTextEl.innerHTML = renderLatex(q.question);
+
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach((optionText, i) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        
+        // Create span for option text and render LaTeX
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = renderLatex(String.fromCharCode(65 + i) + ". " + optionText);
+        optionDiv.appendChild(textSpan);
+        
+        // Add keyboard shortcut badge
+        const keyBadge = document.createElement('div');
+        keyBadge.className = 'key-badge';
+        keyBadge.textContent = String.fromCharCode(65 + i);
+        optionDiv.appendChild(keyBadge);
+
+        if(userAnswers[currentQuestionIndex] === i) {
+          optionDiv.classList.add('selected');
+        }
+
+        optionDiv.addEventListener('click', () => {
+          selectOption(i);
+        });
+
+        optionsContainer.appendChild(optionDiv);
+      });
+
+      prevBtn.disabled = currentQuestionIndex === 0;
+      nextBtn.disabled = currentQuestionIndex === selectedQuestions.length - 1;
+      submitBtn.disabled = userAnswers[currentQuestionIndex] === null;
+
+      renderQuestionNav();
+    }
+
+    function selectOption(optionIndex) {
+      userAnswers[currentQuestionIndex] = optionIndex;
+      
+      Array.from(optionsContainer.children).forEach((optEl, idx) => {
+        optEl.classList.toggle('selected', idx === optionIndex);
+      });
+
+      submitBtn.disabled = false;
+      renderQuestionNav();
+    }
+
+    // Navigation buttons
+    prevBtn.addEventListener('click', () => {
+      if(currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if(currentQuestionIndex < selectedQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      }
+    });
+
+    // Submit button shows custom confirmation dialog
+    submitBtn.addEventListener('click', () => {
+      customConfirm.style.display = 'flex';
+    });
+
+    // Confirm dialog buttons
+    confirmYes.addEventListener('click', () => {
+      customConfirm.style.display = 'none';
+      finishQuiz();
+    });
+
+    confirmNo.addEventListener('click', () => {
+      customConfirm.style.display = 'none';
+    });
+
+    // Reload confirmation handlers
+    function handleBeforeUnload(e) {
+      if (quizInProgress) {
+        // Prevent default for modern browsers
+        e.preventDefault();
+        // Chrome requires returnValue to be set
+        e.returnValue = '';
+        
+        // Show our custom reload confirmation dialog
+        reloadConfirm.style.display = 'flex';
+        
+        // Return message for older browsers
+        return '';
+      }
+    }
+
+    reloadSubmit.addEventListener('click', () => {
+      // Submit the quiz and allow reload
+      reloadConfirm.style.display = 'none';
+      quizInProgress = false;
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      finishQuiz();
+      
+      // After a brief delay, allow the reload to continue
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    });
+
+    reloadCancel.addEventListener('click', () => {
+      // Hide the dialog and continue with the quiz
+      reloadConfirm.style.display = 'none';
+    });
+
+    function finishQuiz() {
+      clearInterval(timer);
+      quizContainer.style.display = 'none';
+      resultContainer.style.display = 'flex';
+      
+      // Remove the beforeunload listener
+      quizInProgress = false;
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+
+      let correctCount = 0;
+      resultsList.innerHTML = '';
+
+      selectedQuestions.forEach((q, idx) => {
+        const userAnsIndex = userAnswers[idx];
+        const isCorrect = userAnsIndex === q.answer;
+        if (isCorrect) correctCount++;
+
+        const userAnswerText = userAnsIndex !== null ? q.options[userAnsIndex] : 'No Answer';
+        const correctAnswerText = q.options[q.answer];
+
+        const div = document.createElement('div');
+        div.className = 'result-question';
+        div.innerHTML = `
+          <div><strong>Q${idx + 1}:</strong> ${renderLatex(q.question)}</div>
+          <div>Your answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${renderLatex(userAnswerText)}</span></div>
+          ${isCorrect ? '' : `<div>Correct answer: <span class="correct">${renderLatex(correctAnswerText)}</span></div>`}
+        `;
+        resultsList.appendChild(div);
+      });
+
+      scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
+      
+      // Add performance comment
+      let comment = "";
+      const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
+      
+      if (percentage >= 80) comment = "Excellent work! You have a strong grasp of this material.";
+      else if (percentage >= 60) comment = "Good effort! Review the incorrect answers to improve.";
+      else comment = "Keep studying! Focus on the topics you missed.";
+      
+      scoreEl.innerHTML += `<div style="margin-top:10px;font-weight:normal">${comment}</div>`;
+    }
+
+    retryBtn.addEventListener('click', () => {
+      initQuiz();
+    });
+
+    // Dark Mode Toggle
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Ignore if focus is on input elements
+      if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
+        return;
+      }
+      
+      const key = e.key.toUpperCase();
+      
+      // Option selection
+      if (key >= 'A' && key <= 'E') {
+        const optionIndex = key.charCodeAt(0) - 65;
+        const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
+        
+        if (optionIndex < currentOptions.length) {
+          selectOption(optionIndex);
+        }
+      }
+      
+      // Navigation
+      switch(key) {
+        case 'P':
+          if (!prevBtn.disabled) prevBtn.click();
+          break;
+        case 'N':
+          if (!nextBtn.disabled) nextBtn.click();
+          break;
+      }
+    });
+
+    // Toggle mobile menu
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('show');
+    });
+
+    // Initialize the count display when page loads
+    updateCountDisplay();
