@@ -4,33 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HAYUx CBT Practice Quiz</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script defer data-domain="hayux-cbt.onrender.com" src="https://plausible.io/js/script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Marquee Banner -->
-  <div class="marquee-container">
-    <marquee behavior="scroll" direction="left">Formular questions, as stated by Dr. Ben, have been added.</marquee>
+  <!-- Cyber Grid Background -->
+  <div class="cyber-grid"></div>
+
+  <!-- Floating Elements -->
+  <div class="floating-elements">
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
   </div>
 
-  <!-- Navigation Bar -->
+  <!-- Marquee Banner -->
+  <div class="marquee-container">
+    <i class="fas fa-info-circle"></i>
+    <span>GNS222: Questions adjusted... || Welcome to HAYUx CBT Platform</span>
+  </div>
+
+  <!-- Navigation -->
   <nav>
-    <div class="logo">HAYUx CBT</div>
+    <div class="logo">
+      <i class="fas fa-graduation-cap"></i>
+      <span>HAYUx CBT</span>
+    </div>
+
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="search-bar" placeholder="Search courses...">
+    </div>
+
+    <button class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
     <div class="nav-links">
       <a href="https://hayux-cbt.onrender.com/">Home</a>
       <a href="https://hayux-cbt.onrender.com/create.html">Create Quiz</a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe952o-qahcPcVhStlQPgxSetmyPjYA3_W725NUTfRVNDPuXw/viewform?usp=header">Suggest Question</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSe952o-qahcPcVhStlQPgxSetmyPjYA3_W725NUTfRVNDPuXw/viewform?usp=header" target="_blank">Suggest a Question</a>
       <a href="https://hayux-cbt.onrender.com/contact.html">Contact</a>
     </div>
   </nav>
 
-  <!-- Quiz Header -->
+  <!-- Quiz Header - IMPROVED -->
   <div class="quiz-header">
-    <h1>HAYUx CBT Practice Quiz</h1>
-    <div class="subheader">ME224: THERMO-SCIENCE</div>
-    <button id="dark-mode-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">
-      🌙 Dark Mode
-    </button>
+    <div class="quiz-header-content">
+      <h1>HAYUx CBT Practice Quiz</h1>
+      <div class="subheader">ME224: THERMO-SCIENCE</div>
+
+    </div>
   </div>
 
   <div id="app" style="display: none;">
@@ -66,7 +98,24 @@
   <!-- Start screen - shown initially -->
   <div id="start-screen">
     <h1>Welcome to HAYUx CBT Practice Quiz</h1>
-    <p>Test your knowledge with this interactive quiz. You'll have 45 minutes to answer 45 questions. Good luck!</p>
+    <p>Test your knowledge with this interactive quiz. You'll have 1 minute per question to answer the selected number of questions. Good luck!</p>
+    
+    <!-- Question Count Selector -->
+    <div class="question-count-selector">
+      <h3>Select Number of Questions</h3>
+      <div class="count-input-container">
+        <div class="count-input">
+          <button class="count-btn" id="decrease-btn">-</button>
+          <input type="number" id="question-count" min="10" max="100" value="10">
+          <button class="count-btn" id="increase-btn">+</button>
+        </div>
+        <span class="count-value" id="count-display">10 questions</span>
+      </div>
+      <div class="count-slider">
+        <input type="range" id="count-slider" min="10" max="100" value="10" step="5">
+      </div>
+      <p class="time-estimate" id="time-estimate">Estimated time: 10 minutes</p>
+    </div>
     
     <div class="keyboard-shortcuts">
       <h3>Keyboard Shortcuts</h3>
@@ -104,7 +153,19 @@
     </div>
   </div>
 
+  <!-- Reload confirmation dialog -->
+  <div id="reload-confirm">
+    <div class="reload-content">
+      <h3>Quiz in Progress</h3>
+      <p>Are you sure you want to leave? Your progress will be submitted automatically if you continue.</p>
+      <div class="reload-buttons">
+        <button id="reload-submit">Submit Quiz & Leave</button>
+        <button id="reload-cancel">Continue Quiz</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
