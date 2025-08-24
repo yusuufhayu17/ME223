@@ -1707,7 +1707,7 @@ const questions = [
   }
 ];
 
-    // KaTeX rendering function
+  // KaTeX rendering function
     function renderLatex(str) {
       if (!str) return str;
       
@@ -1724,6 +1724,7 @@ const questions = [
         }
       });
     }
+
 
     // UI Elements
     const questionNav = document.getElementById('question-nav');
@@ -1745,11 +1746,10 @@ const questions = [
     const customConfirm = document.getElementById('customConfirm');
     const confirmYes = document.getElementById('confirmYes');
     const confirmNo = document.getElementById('confirmNo');
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
     const reloadConfirm = document.getElementById('reload-confirm');
     const reloadSubmit = document.getElementById('reload-submit');
     const reloadCancel = document.getElementById('reload-cancel');
-    
+
     // Question count elements
     const questionCountInput = document.getElementById('question-count');
     const countSlider = document.getElementById('count-slider');
@@ -1784,7 +1784,9 @@ const questions = [
         timeStr = `${sec} second${sec !== 1 ? 's' : ''}`;
       }
       timeEstimate.textContent = `Estimated time: ${timeStr} (${TOTAL_QUESTIONS} × 45 sec)`;
-    }   // Initialize question count controls
+    }   
+
+    // Initialize question count controls
     decreaseBtn.addEventListener('click', () => {
       if (TOTAL_QUESTIONS > 10) {
         TOTAL_QUESTIONS = Math.max(10, TOTAL_QUESTIONS - 5);
@@ -1820,10 +1822,8 @@ const questions = [
     });
 
     function initQuiz() {
-      // Set time limit based on number of questions (1 minute per question)
-      timeRemaining = TOTAL_QUESTIONS * 45; // 45 seconds per question
-      
-      // Update timer display with initial time
+      // Set time limit based on number of questions (45s per question)
+      timeRemaining = TOTAL_QUESTIONS * 45;
       updateTimerDisplay();
 
       // Shuffle and pick questions
@@ -1844,11 +1844,11 @@ const questions = [
 
       startTimer();
       
-      // Set quiz in progress flag
       quizInProgress = true;
-      
-      // Add beforeunload event listener
       window.addEventListener('beforeunload', handleBeforeUnload);
+      
+      // Focus on the quiz container for keyboard events
+      document.body.focus();
     }
 
     function shuffleArray(array) {
@@ -1906,12 +1906,10 @@ const questions = [
         const optionDiv = document.createElement('div');
         optionDiv.className = 'option';
         
-        // Create span for option text and render LaTeX
         const textSpan = document.createElement('span');
         textSpan.innerHTML = renderLatex(String.fromCharCode(65 + i) + ". " + optionText);
         optionDiv.appendChild(textSpan);
         
-        // Add keyboard shortcut badge
         const keyBadge = document.createElement('div');
         keyBadge.className = 'key-badge';
         keyBadge.textContent = String.fromCharCode(65 + i);
@@ -1979,34 +1977,24 @@ const questions = [
     // Reload confirmation handlers
     function handleBeforeUnload(e) {
       if (quizInProgress) {
-        // Prevent default for modern browsers
         e.preventDefault();
-        // Chrome requires returnValue to be set
         e.returnValue = '';
-        
-        // Show our custom reload confirmation dialog
         reloadConfirm.style.display = 'flex';
-        
-        // Return message for older browsers
         return '';
       }
     }
 
     reloadSubmit.addEventListener('click', () => {
-      // Submit the quiz and allow reload
       reloadConfirm.style.display = 'none';
       quizInProgress = false;
       window.removeEventListener('beforeunload', handleBeforeUnload);
       finishQuiz();
-      
-      // After a brief delay, allow the reload to continue
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
 
     reloadCancel.addEventListener('click', () => {
-      // Hide the dialog and continue with the quiz
       reloadConfirm.style.display = 'none';
     });
 
@@ -2015,7 +2003,6 @@ const questions = [
       quizContainer.style.display = 'none';
       resultContainer.style.display = 'flex';
       
-      // Remove the beforeunload listener
       quizInProgress = false;
       window.removeEventListener('beforeunload', handleBeforeUnload);
 
@@ -2042,7 +2029,6 @@ const questions = [
 
       scoreEl.textContent = `You answered ${correctCount} out of ${selectedQuestions.length} questions correctly.`;
       
-      // Add performance comment
       let comment = "";
       const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
       
@@ -2057,46 +2043,97 @@ const questions = [
       initQuiz();
     });
 
-    // Dark Mode Toggle
-    darkModeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
-    });
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      // Ignore if focus is on input elements
-      if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement.tagName)) {
-        return;
-      }
-      
-      const key = e.key.toUpperCase();
-      
-      // Option selection
-      if (key >= 'A' && key <= 'E') {
-        const optionIndex = key.charCodeAt(0) - 65;
-        const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
-        
-        if (optionIndex < currentOptions.length) {
-          selectOption(optionIndex);
-        }
-      }
-      
-      // Navigation
-      switch(key) {
-        case 'P':
-          if (!prevBtn.disabled) prevBtn.click();
-          break;
-        case 'N':
-          if (!nextBtn.disabled) nextBtn.click();
-          break;
-      }
-    });
-
     // Toggle mobile menu
     document.querySelector('.menu-toggle').addEventListener('click', function () {
       document.querySelector('.nav-links').classList.toggle('show');
     });
 
-    // Initialize the count display when page loads
+    // Initialize count display when page loads
     updateCountDisplay();
+
+    // Keyboard shortcuts - FIXED
+    document.addEventListener('keydown', function(e) {
+      // Don't process keyboard shortcuts if user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      
+      const key = e.key.toUpperCase();
+      
+      // Handle keyboard shortcuts based on what's visible on screen
+      if (startScreen.style.display !== 'none') {
+        // Start screen is visible
+        if (key === 'ENTER') {
+          e.preventDefault();
+          startQuizBtn.click();
+        }
+        return;
+      }
+      
+      if (customConfirm.style.display === 'flex') {
+        // Custom confirmation dialog is visible
+        if (key === 'Y' || key === 'ENTER') {
+          e.preventDefault();
+          confirmYes.click();
+        } else if (key === 'N' || key === 'ESCAPE') {
+          e.preventDefault();
+          confirmNo.click();
+        }
+        return;
+      }
+      
+      if (reloadConfirm.style.display === 'flex') {
+        // Reload confirmation dialog is visible
+        if (key === 'ENTER') {
+          e.preventDefault();
+          reloadSubmit.click();
+        } else if (key === 'ESCAPE') {
+          e.preventDefault();
+          reloadCancel.click();
+        }
+        return;
+      }
+      
+      if (resultContainer.style.display === 'flex') {
+        // Results screen is visible
+        if (key === 'ENTER' || key === 'R') {
+          e.preventDefault();
+          retryBtn.click();
+        }
+        return;
+      }
+      
+      if (quizContainer.style.display === 'flex' && quizInProgress) {
+        // Quiz is in progress
+        // Option selection (A–E)
+        if (key >= 'A' && key <= 'E') {
+          const optionIndex = key.charCodeAt(0) - 65;
+          const currentOptions = selectedQuestions[currentQuestionIndex]?.options || [];
+          if (optionIndex < currentOptions.length) {
+            e.preventDefault();
+            selectOption(optionIndex);
+          }
+          return;
+        }
+
+        // Navigation
+        switch (key) {
+          case 'P':
+            e.preventDefault();
+            if (!prevBtn.disabled) prevBtn.click();
+            break;
+          case 'N':
+            e.preventDefault();
+            if (!nextBtn.disabled) nextBtn.click();
+            break;
+          case 'S':
+            e.preventDefault();
+            if (!submitBtn.disabled) submitBtn.click();
+            break;
+        }
+      }
+    });
+
+    // Simple LaTeX rendering function
+    function renderLatex(text) {
+      // This is a simplified version - in a real app you'd use KaTeX properly
+      return text.replace(/\$(.*?)\$/g, '<span class="katex">$1</span>');
+    }
